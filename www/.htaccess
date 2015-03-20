@@ -1,0 +1,26 @@
+RewriteEngine on
+
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule ^(.*)$ index.php [PT,L]
+#RewriteRule ^(.*)$ $1 [PT,L]
+
+
+
+
+RewriteRule ^index(\/.*)*$ index.php
+RewriteRule ^dashboard(\/.*)*$ /index.php
+RewriteRule ^login(\/.*)*$ login.php
+#RewriteRule ^AuthUserLogin(\/.*)*$ /mfi-boss/api/
+
+#/mfi-boss/www/api/AuthUserLogin
+RewriteRule ^logout(\/.*)*$ /logout.php	
+
+
+RewriteRule ^login(.*)$ login.php
+RewriteRule ^logout(.*)$ logout.php
+RewriteRule ^settings(.*)$ settings.php
+RewriteRule ^reports(.*)$ reports.php
+RewriteRule ^project(\/.*)*$ project.php
+RewriteRule ^project-print(\/.*)*$ project-print.php
+
