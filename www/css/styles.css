@@ -52,7 +52,7 @@ table.dataTable thead th:last-child, table.dataTable thead td:last-child {
 
 table.dataTable thead th div{
 	width: 19px;
-	height: 19px;
+	height: 100%;
 	display: inline-block;
 	background-color: red;
 }
@@ -81,6 +81,23 @@ table.dataTable thead .sorting div{
   background: url("/images/sort_both.png") no-repeat center center;
 }
 
+
+
+ 
+table.dataTable.row-border tbody td, 
+table.dataTable.display tbody td {
+  border-left: 1px solid #ddd;
+}
+
+
+table.dataTable.row-border tbody td:last-child,  
+table.dataTable.display tbody td:last-child {
+  border-right: 1px solid #ddd;
+}
+
+table.dataTable.no-footer {
+  border-bottom: 1px solid #ddd; 
+}
 
 
 

@@ -120,8 +120,8 @@ require_once('../lib/initialize.php');
           <div class="col-md-12">
             <table id="example" class="display" cellspacing="0" width="100%">
               <thead>
-                <th>Projects <div> </div></th>
-                <th>Date Start <div> </div></th>
+                <th>Projects <div>&nbsp&nbsp</div></th>
+                <th>Date Start <div>&nbsp&nbsp</div></th>
               </thead>
               <tbody>
               <?php
@@ -142,8 +142,8 @@ require_once('../lib/initialize.php');
 
                 foreach ($projects as $project) {
                   echo '<tr>';
-                  echo '<td><a href="project/'.$project->id.'" style="display: block;">'.$project->descriptor.'</a></td>';
-                  echo '<td><a href="project/'.$project->id.'" style="display: block;">'.$project->datestart.'</a></td>';
+                  echo '<td><a href="/project/'.$project->id.'" style="display: block;">'.$project->descriptor.'</a></td>';
+                  echo '<td><a href="/project/'.$project->id.'" style="display: block;">'.$project->datestart.'</a></td>';
                   echo '</tr>';
                 }
 
