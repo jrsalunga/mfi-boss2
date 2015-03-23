@@ -49,8 +49,8 @@ require_once('../lib/initialize.php');
 
 
         $('#example').DataTable({
-          "order": [[ 1, "desc" ]]
-          //stateSave: true
+          "order": [[ 1, "desc" ]],
+          stateSave: true
         });
 
         //$('div.dataTables_filter input').focus();
@@ -120,8 +120,8 @@ require_once('../lib/initialize.php');
           <div class="col-md-12">
             <table id="example" class="display" cellspacing="0" width="100%">
               <thead>
-                <th>Projects</th>
-                <th>Date Start</th>
+                <th>Projects <div> </div></th>
+                <th>Date Start <div> </div></th>
               </thead>
               <tbody>
               <?php

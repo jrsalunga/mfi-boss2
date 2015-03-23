@@ -137,7 +137,9 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
           <nav>
             <ul class="pager">
               <li class="previous"><a href="/reports"><span class="glyphicon glyphicon-chevron-left"></span> Back</a></li>
+              <!--
               <li class="next"><a href="/project-print/<?=$project->id?>" target="_blank"><span class="glyphicon glyphicon-print"></span> Print Preview</a></li>
+              -->
             </ul>
           </nav>
 
@@ -233,7 +235,10 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
               <div class="col-md-2 col-md-offset-6 text-right">Total Hours: <b><?=number_format($gs3['g_hrs'],2)?></b></div>
               <div class="col-md-3 text-right">Total Cost: <b><?=number_format($gs3['g_cost'],2)?></b></div>
             </div>
+
+              
               <div class="collapse" id="collapseDL">
+                
                 
                 <table class="table">
                   <thead>
@@ -257,9 +262,9 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
                  
                   </tbody>
                 </table>  
-             
+                
               </div>
-
+              
             
           </div>
 
