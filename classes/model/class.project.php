@@ -30,7 +30,7 @@ class Project extends DatabaseObject{
 	
 	public static function find_all($order=NULL) {
 		if(empty($order) || $order==NULL) {
-			return parent::find_by_sql("SELECT * FROM ".static::$table_name. " ORDER BY datestart DESC");
+			return parent::find_by_sql("SELECT * FROM ".static::$table_name. " WHERE datestart > '2014-09-30' ORDER BY datestart DESC");
 		} else {
 			return parent::find_by_sql("SELECT * FROM ".static::$table_name." ".$order);
 		}
