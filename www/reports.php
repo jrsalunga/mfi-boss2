@@ -121,6 +121,7 @@ require_once('../lib/initialize.php');
             <table id="example" class="display" cellspacing="0" width="100%">
               <thead>
                 <th>Projects <div>&nbsp&nbsp</div></th>
+                <th>Amount <div>&nbsp&nbsp</div></th>
                 <th>Date Start <div>&nbsp&nbsp</div></th>
               </thead>
               <tbody>
@@ -143,6 +144,7 @@ require_once('../lib/initialize.php');
                 foreach ($projects as $project) {
                   echo '<tr>';
                   echo '<td><a href="/project/'.$project->id.'" style="display: block;">'.$project->descriptor.'</a></td>';
+                  echo '<td class="text-right"><a href="/project/'.$project->id.'" style="display: block;">'.number_format($project->amount,2).'</a></td>';
                   echo '<td><a href="/project/'.$project->id.'" style="display: block;">'.$project->datestart.'</a></td>';
                   echo '</tr>';
                 }

@@ -145,11 +145,15 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
 
           <div class="page-header">
             <h3><?=$project->descriptor?></h3>
-            <span class="glyphicon glyphicon-map-marker"></span> 
-            <?php
-              echo isset($project->location) ? 
-              '<a href="https://www.google.com/maps/search/'.$project->location.'" target="_blank" style="color:#333;">'.$project->location.'</a>':'';
-            ?>
+            <div class="col-md-8">
+              <span class="glyphicon glyphicon-map-marker"></span> 
+              <?php
+                echo isset($project->location) ? 
+                '<a href="https://www.google.com/maps/search/'.$project->location.'" target="_blank" style="color:#333;">'.$project->location.'</a>':'';
+              ?>
+            </div>
+            <div class="col-md-4 text-right">Contract Amount: <strong>&#8369; <?=number_format($project->amount,2)?></strong></div>
+            <div class="clearfix"></div>
           </div>
           
 
