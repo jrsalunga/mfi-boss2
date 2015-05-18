@@ -1,5 +1,5 @@
 <?php
-require_once('../lib/initialize.php');
+require_once('../../lib/initialize.php');
 !$session->is_logged_in() ? redirect_to("/login"): "";
 ?>
 <!DOCTYPE html>
@@ -49,16 +49,16 @@ require_once('../lib/initialize.php');
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="/">Home</a></li>
-            <li><a href="/reports">Reports</a></li>
+            <li><a href="/">Home</a></li>
+            <li class="active"><a href="/reports">Reports</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">
               <span class="glyphicon glyphicon-cog"></span> <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="settings">Settings</a></li>
-                <li><a href="logout">Log Out</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li><a href="/logout">Log Out</a></li>
               </ul>
             </li>
           </ul>
@@ -66,8 +66,19 @@ require_once('../lib/initialize.php');
       </div>
     </nav>
 
-    <div class="container">
-      <h3>Dashboard</h3>
+    <div class="container-fluid">
+      <div class="col-sm-3 col-md-2 sidebar">
+        <ul class="nav nav-sidebar">
+          <li>
+            <a href="/reports/bom-variances">Project BOM Variances</a>
+          </li>
+          <li class="active">
+            <a href="/reports/inventory-status">Inventory Status</a>
+          </li>
+        </ul>        
+      </div>
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+      </div>
     </div>
     
 

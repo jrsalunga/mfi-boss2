@@ -1,7 +1,6 @@
 <?php
-require_once('../lib/initialize.php');
-
-
+require_once('../../lib/initialize.php');
+!$session->is_logged_in() ? redirect_to("/login"): "";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -102,10 +101,10 @@ require_once('../lib/initialize.php');
           <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
               <li class="active">
-                <a href="/reports">Project BOM Variances</a>
+                <a href="/reports/bom-variances">Project BOM Variances</a>
               </li>
               <li>
-                <a href="/">Inventory Status</a>
+                <a href="/reports/inventory-status">Inventory Status</a>
               </li>
             </ul>        
           </div>
@@ -136,7 +135,7 @@ require_once('../lib/initialize.php');
 
                 foreach ($projects as $project) {
                   echo '<tr>';
-                  echo '<td><a href="/project/'.$project->id.'" style="display: block;">'.$project->descriptor.'</a></td>';
+                  echo '<td><a href="/reports/project/'.$project->id.'" style="display: block;">'.$project->descriptor.'</a></td>';
                   echo '<td>'.number_format($project->amount,2).'</td>';
                   echo '<td>'.$project->datestart.'</td>';
                   echo '</tr>';

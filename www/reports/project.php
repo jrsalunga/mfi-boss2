@@ -1,5 +1,6 @@
 <?php
-require_once('../lib/initialize.php');
+require_once('../../lib/initialize.php');
+!$session->is_logged_in() ? redirect_to("/login"): "";
 $cleanUrl->setParts('projectid');
 
 $project = Project::find_by_id($projectid);
@@ -121,8 +122,8 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">
               <span class="glyphicon glyphicon-cog"></span> <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="settings">Settings</a></li>
-                <li><a href="logout">Log Out</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li><a href="/logout">Log Out</a></li>
               </ul>
             </li>
           </ul>
@@ -132,14 +133,14 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
 
 
 
-    <div class="container">
+    <div class="container-fluid">
       <div class="col-sm-3 col-md-2 sidebar">
         <ul class="nav nav-sidebar">
           <li class="active">
-            <a href="/reports">Project BOM Variances</a>
+            <a href="/reports/bom-variances">Project BOM Variances</a>
           </li>
           <li>
-            <a href="/">Inventory Status</a>
+            <a href="/reports/inventory-status">Inventory Status</a>
           </li>
         </ul>        
       </div>
@@ -198,7 +199,9 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
                   <td class="text-center">Category</td>
                   <!--<td class="text-center">Code</td>-->
                   <td class="text-center">Item</td>
+                  <!--
                   <td class="text-center">UoM</td>
+                  -->
                   <td class="text-center">Ave Cost</td>
                   <td class="text-center">BoM</td>
                   <td class="text-center">BoM Cost</td>
@@ -219,7 +222,7 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
                   echo '<td>'. $bom->catname .'</td>';
                   //echo '<td>'. $bom->itemcode .'</td>';
                   echo '<td>'. $bom->itemname .'</td>';
-                  echo '<td>'. $bom->uom .'</td>';
+                  //echo '<td>'. $bom->uom .'</td>';
                   echo '<td class="text-right">'. number_format($bom->avecost, 2) .'</td>';
                   echo '<td class="text-right">'. number_format($bom->qty, 0) .'</td>';
                   echo '<td class="text-right">'. number_format($bom->bomcost, 2) .'</td>';
