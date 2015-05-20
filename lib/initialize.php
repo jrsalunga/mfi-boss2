@@ -71,6 +71,7 @@ require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.cvhdr.php');
 require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.cvapvdtl.php');
 require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.prodhdr.php');
 require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.operation.php');
+require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.itemcat.php');
 
 require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.view.apvhdr.php');
 require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.view.apvdtl.php');
