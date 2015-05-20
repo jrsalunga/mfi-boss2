@@ -180,3 +180,16 @@ table.dataTable.no-footer {
     margin-bottom: -1px;
     margin-top: 20px;
 }
+
+
+
+
+
+
+
+
+/************* datatables ***************/
+
+.currency {
+	text-align: right;
+}

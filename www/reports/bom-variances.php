@@ -136,7 +136,7 @@ require_once('../../lib/initialize.php');
                 foreach ($projects as $project) {
                   echo '<tr>';
                   echo '<td><a href="/reports/project/'.$project->id.'" style="display: block;" title="'.$project->code.'">'.$project->descriptor.'</a></td>';
-                  echo '<td>'.number_format($project->amount,2).'</td>';
+                  echo '<td class="currency">'.number_format($project->amount,2).'</td>';
                   echo '<td>'.$project->datestart.'</td>';
                   echo '</tr>';
                 }
