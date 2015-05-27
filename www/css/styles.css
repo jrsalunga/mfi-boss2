@@ -30,6 +30,7 @@ table.table > tbody > tr > td {
   line-height: normal;
   padding: 4px;
   margin: 0;
+  -webkit-appearance: textfield;
 }
 
 .dataTables_length select {
@@ -193,3 +194,6 @@ table.dataTable.no-footer {
 .currency {
 	text-align: right;
 }
+
+
+

@@ -23,6 +23,13 @@ class Itemcat extends DatabaseObject{
 			return parent::find_by_sql("SELECT * FROM ".static::$table_name." ".$order);
 		}
   	}
+
+
+  	public static function filterAll($key=NULL, $value=NULL){
+  		
+  		echo json_encode(static::$recordset);
+		
+  	}
 	
 	
 }

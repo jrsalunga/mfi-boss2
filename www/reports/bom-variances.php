@@ -47,8 +47,8 @@ require_once('../../lib/initialize.php');
       $(document).ready(function() {
 
 
-        $('#example').DataTable({
-          "order": [[ 1, "desc" ]],
+        $('#project-list').DataTable({
+          "order": [[ 2, "desc" ]],
           stateSave: true
         });
 
@@ -110,7 +110,7 @@ require_once('../../lib/initialize.php');
           </div>
           
           <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <table id="example" class="display" cellspacing="0" width="100%">
+            <table id="project-list" class="display" cellspacing="0" width="100%">
               <thead>
                 <th>Projects <div>&nbsp&nbsp</div></th>
                 <th>Amount <div>&nbsp&nbsp</div></th>

@@ -148,7 +148,7 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
           
           <nav>
             <ul class="pager">
-              <li class="previous"><a href="/reports"><span class="glyphicon glyphicon-chevron-left"></span> Back</a></li>
+              <li class="previous"><a href="/reports/bom-variances"><span class="glyphicon glyphicon-chevron-left"></span> Back</a></li>
               <!--
               <li class="next"><a href="/project-print/<?=$project->id?>" target="_blank"><span class="glyphicon glyphicon-print"></span> Print Preview</a></li>
               -->
@@ -239,7 +239,7 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
 
 
 
-
+          <!--
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title">Direct Labor</h3>
@@ -285,7 +285,7 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
               
             
           </div>
-
+          -->
 
           <div class="panel panel-default">
             <div class="panel-heading">

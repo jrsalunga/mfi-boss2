@@ -12,6 +12,7 @@ class DatabaseObject {
 	protected static $table_name="category";
 	protected static $db_fields = array('id', 'code', 'descriptor', 'type');
 	protected static $parent_table = array('apvhdr');
+	public static $recordset = array();
 
 	
 	public static function find_all($order=NULL) {
@@ -61,14 +62,17 @@ class DatabaseObject {
   
   	public static function find_by_sql($sql="") {
             global $database;
+            static::$recordset = array();
             $result_set = $database->query($sql);
     
 
             $object_array = array();
             while ($row = $database->fetch_array($result_set)) {
-                $object_array[] = static::instantiate($row);
+                //$object_array[] = static::instantiate($row);
+                static::$recordset[] = static::instantiate($row);
             }
-            return $object_array;
+            //return $object_array;
+            return static::$recordset;
         }
 
 	public static function count_all() {
