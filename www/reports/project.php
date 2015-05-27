@@ -176,15 +176,15 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
             <div class="panel-body">
 
 
-            <div class="col-md-1">
-              <a id="collapse-dm" class="btn btn-default collapsed" data-toggle="collapse" href="#collapseDM" aria-expanded="false" aria-controls="collapseDM">
-                <span class="glyphicon glyphicon-folder-close"></span>
-              </a>
-            </div>
-            <div class="col-md-2 text-right">BoM Qty: <b><?=number_format($gs['gt_qty'],0)?></b></div>
-            <div class="col-md-3 text-right">BoM Amount: <b><?=number_format($gs['gt_bomcost'],2)?></b></div>
-            <div class="col-md-3 text-right">Actual Qty: <b><?=number_format($gs['gt_qtyused'],0)?></b></div>
-            <div class="col-md-3 text-right">Actual Amount: <b><?=number_format($gs['gt_totamt'],2)?></b></div>
+              <div class="col-md-1">
+                <a id="collapse-dm" class="btn btn-default collapsed" data-toggle="collapse" href="#collapseDM" aria-expanded="false" aria-controls="collapseDM">
+                  <span class="glyphicon glyphicon-folder-close"></span>
+                </a>
+              </div>
+              <div class="col-md-2 text-right">BoM Qty: <b><?=number_format($gs['gt_qty'],0)?></b></div>
+              <div class="col-md-3 text-right">BoM Amount: <b><?=number_format($gs['gt_bomcost'],2)?></b></div>
+              <div class="col-md-3 text-right">Actual Qty: <b><?=number_format($gs['gt_qtyused'],0)?></b></div>
+              <div class="col-md-3 text-right">Actual Amount: <b><?=number_format($gs['gt_totamt'],2)?></b></div>
            
               
             </div>

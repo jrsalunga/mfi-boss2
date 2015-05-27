@@ -1,6 +1,6 @@
 <?php
 require_once('../lib/initialize.php');
-
+$session->is_logged_in() ? redirect_to("/index"): "";
 
 ?>
 <!DOCTYPE html>

@@ -1,5 +1,6 @@
 <?php
 require_once('../lib/initialize.php');
+$session->is_logged_in() ? redirect_to("/index"): "";
 $cleanUrl->setParts('projectid');
 
 $project = Project::find_by_id($projectid);
