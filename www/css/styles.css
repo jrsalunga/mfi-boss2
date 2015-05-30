@@ -30,6 +30,9 @@ table.table > tbody > tr > td {
   line-height: normal;
   padding: 4px;
   margin: 0;
+}
+
+.dataTables_filter input[type=search] {
   -webkit-appearance: textfield;
 }
 
@@ -98,6 +101,12 @@ table.dataTable.display tbody td:last-child {
 
 table.dataTable.no-footer {
   border-bottom: 1px solid #ddd; 
+}
+
+
+
+.panel-body table.dataTable thead tr th {
+	border: 0;
 }
 
 

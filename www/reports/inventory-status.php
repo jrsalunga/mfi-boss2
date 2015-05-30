@@ -211,11 +211,11 @@ $datas = summaryReport($items, 'catname');
           <table class="table table-striped">
           <thead>
             <tr>
-              <th>Code</th>
-              <th>Item</th>
-              <th class="text-right">Ave Cost</th>
-              <th class="text-right">On Hand</th>       
-              <th class="text-right">Total Cost</th>
+              <th class="hidden-sm hidden-xs">Code <div>&nbsp;&nbsp;</div></th>
+              <th>Item <div>&nbsp;&nbsp;</div></th>
+              <th class="text-right">Ave Cost <div>&nbsp;&nbsp;</div></th>
+              <th class="text-right">On Hand <div>&nbsp;&nbsp;</div></th>       
+              <th class="text-right">Total Cost <div>&nbsp;&nbsp;</div></th>
             </tr>
             
           </thead>
@@ -229,7 +229,7 @@ $datas = summaryReport($items, 'catname');
 
               foreach ($value['rs'] as $item) {
                 echo '<tr>';
-                echo '<td>'. $item->code .'</td>';
+                echo '<td class="hidden-sm hidden-xs">'. $item->code .'</td>';
                 echo '<td>'. $item->descriptor .'</td>';
                 echo '<td class="text-right">'. number_format($item->avecost, 2) .'</td>';
                 echo '<td class="text-right" title="'. $item->onhand .' '. $item->uom .'">'. $item->onhand .'</td>';
@@ -289,6 +289,7 @@ $datas = summaryReport($items, 'catname');
     <script src="/js/vendors/jquery-ui-1.11.2.min.js"></script>
     <script src="/js/vendors/bootstrap-3.3.1.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.5/js/bootstrap-select.min.js"></script>
+    <script src="/js/vendors/jquery.dataTables-1.10.5.min.js"></script>
     
     <script src="/js/vendors/moment-2.8.4.min.js"></script>
     <script src="/js/vendors/accounting-0.4.1.min.js"></script>
@@ -335,6 +336,23 @@ $datas = summaryReport($items, 'catname');
         }
 
       });
+
+
+
+
+
+
+
+
+        $('.table').DataTable({
+          "order": [[ 1, "asc" ]],
+          "paging": false,
+          "info": false
+        });
+
+
+      } );
+    </script>
 
     });
     </script>
