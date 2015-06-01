@@ -130,15 +130,25 @@ $datas = summaryReport($items, 'catname');
           <li class="active">
             <a href="/reports/inventory-status">Inventory Status</a>
           </li>
+          <li>
+            <a href="/reports/stock-receipts">Stock Receipts Summary</a>
+          </li>
+          <li>
+            <a href="/reports/direct-material-issuances">Direct Material Issuances</a>
+          </li>
+          <li>
+            <a href="/reports/indirect-material-issuances">Indirect Material Issuances</a>
+          </li>
         </ul>        
       </div>
       <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main inventory-status">
+        <h4>Status of Inventory</h4>
 
         <nav class="navbar navbar-default">
         
-        <form class="navbar-form">
+        <form class="navbar-form form-inline pull-right">
         <div class="form-group">
-          <label for="fr">from Item Category</label>
+          <label for="fr">From item category </label>
             <select name="fr"  id="fr" class="selectpicker show-tick">
             <?php
                 foreach ($itemcats as $itemcat) {
@@ -347,6 +357,7 @@ $datas = summaryReport($items, 'catname');
         $('.table').DataTable({
           "order": [[ 1, "asc" ]],
           "paging": false,
+          "searching": false,
           "info": false
         });
 

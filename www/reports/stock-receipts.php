@@ -1,6 +1,25 @@
 <?php
 require_once('../../lib/initialize.php');
 !$session->is_logged_in() ? redirect_to("/login"): "";
+
+if(isset($_GET['fr']) && isset($_GET['to'])){
+    sanitize($_GET);
+    $dr = new DateRange($_GET['fr'],$_GET['to']);
+} else {
+    $dr = new DateRange(NULL,NULL,false);   
+}
+
+
+
+if(isset($_GET['tab'])&&$_GET['tab']==='date'){
+
+} else {
+  $items = vItem::findAllStockReceiptsByDateRange($dr->fr, $dr->to);
+
+}
+//global $database;
+//echo $database->last_query;
+//exit;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -75,7 +94,7 @@ require_once('../../lib/initialize.php');
           <li>
             <a href="/reports/inventory-status">Inventory Status</a>
           </li>
-          <li>
+          <li class="active">
             <a href="/reports/stock-receipts">Stock Receipts Summary</a>
           </li>
           <li>
@@ -86,7 +105,78 @@ require_once('../../lib/initialize.php');
           </li>
         </ul>        
       </div>
-      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main receipts">
+      <h4>Summary of Stock Receipts</h4>
+
+
+      <nav class="navbar navbar-default">
+        
+        <form class="navbar-form form-inline pull-right">
+          <div class="form-group">
+            <div class="form-group">
+                <label class="sr-only" for="fr">From:</label>
+                <input type="text" class="form-control" id="fr" name="fr" placeholder="YYYY-MM-DD" value="<?=$dr->fr?>">
+            </div>  
+            <div class="form-group">
+                <label class="sr-only" for="to">To:</label>
+                <input type="text" class="form-control" id="to" name="to" placeholder="YYYY-MM-DD"  value="<?=$dr->to?>">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Go</button>
+          </div>
+        </form>
+      </nav>
+
+
+
+      <div role="tabpanel">
+
+  <ul class="nav nav-tabs" role="tablist" id="myTab">
+    <li role="presentation" <?=!isset($_GET['tab'])?'class="active"':''?>><a href="/reports/stock-receipts">All</a></li>
+    <!--
+    <li role="presentation" <?=(isset($_GET['tab'])&&$_GET['tab']==='date')?'class="active"':''?>><a href="/reports/stock-receipts?tab=date">by Date</a></li>
+    -->
+  </ul>
+
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active">
+      <?php
+        if(isset($_GET['tab'])&&$_GET['tab']==='date'){
+          echo 'by date';
+        } else {
+      ?>    
+      <table id="by-category" class="table table-striped">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Item</th>
+            <th class="text-right">Qty</th>
+            <th>UoM</th>
+            <th>PO</th>
+          </tr>
+        </thead>
+        <tbody>
+      <?php
+          foreach ($items as $item) {
+            echo '<tr>';
+            echo '<td>'.$item->catname.'</td>';
+            echo '<td>'.$item->descriptor.'</td>';
+            echo '<td class="text-right">'.$item->totqty.'</td>';
+            echo '<td>'.$item->uom.'</td>';
+            echo '<td>'.$item->porefno.'</td>';
+            //echo  $item->catname .' - '.$item->descriptor.' - '. $item->totqty .' - '.$item->porefno.'<br>';
+            echo '</tr>';
+          }
+        }
+      ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+
       </div>
     </div>
     
@@ -102,7 +192,34 @@ require_once('../../lib/initialize.php');
     <script src="/js/vendors/moment-2.8.4.min.js"></script>
     <script src="/js/vendors/accounting-0.4.1.min.js"></script>
 
-    
+<script>
+
+function daterange(){
+
+  $( "#fr" ).datepicker({
+      defaultDate: "+1w",
+      dateFormat: 'yy-mm-dd',
+      changeMonth: true,
+      numberOfMonths: 2,
+      onClose: function( selectedDate ) {
+        $( "#to" ).datepicker( "option", "minDate", selectedDate );
+      }
+    });
+    $( "#to" ).datepicker({
+      defaultDate: "+1w",
+      dateFormat: 'yy-mm-dd',
+      changeMonth: true,
+      numberOfMonths: 2,
+      onClose: function( selectedDate ) {
+        $( "#fr" ).datepicker( "option", "maxDate", selectedDate );
+      }
+    });
+}
+
+$(document).ready(function(e) {
+    daterange();
+});
+</script>
 
   </body>
 </html>

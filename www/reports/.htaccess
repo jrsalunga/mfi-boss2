@@ -15,4 +15,6 @@ RewriteRule ^index(\/.*)*$ index.php
 RewriteRule ^bom-variances(.*)$ bom-variances.php
 RewriteRule ^inventory-status(.*)$ inventory-status.php
 RewriteRule ^project(.*)$ project.php
-
+RewriteRule ^stock-receipts(.*)$ stock-receipts.php
+RewriteRule ^direct-material-issuances(.*)$ direct-material-issuances.php
+RewriteRule ^indirect-material-issuances(.*)$ indirect-material-issuances.php

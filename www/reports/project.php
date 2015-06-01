@@ -142,6 +142,9 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
           <li>
             <a href="/reports/inventory-status">Inventory Status</a>
           </li>
+          <li>
+            <a href="/reports/stock-receipts">Stock Receipts Summary</a>
+          </li>
         </ul>        
       </div>
       <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">

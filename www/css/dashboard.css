@@ -85,6 +85,11 @@ body {
     padding-right: 10px;
     padding-left: 10px;
   }
+
+  .receipts.main {
+    padding-right: 10px;
+    padding-left: 10px;
+  }
 }
 .main .page-header {
   margin-top: 0;

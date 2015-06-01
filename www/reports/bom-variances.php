@@ -109,6 +109,15 @@ require_once('../../lib/initialize.php');
               <li>
                 <a href="/reports/inventory-status">Inventory Status</a>
               </li>
+              <li>
+                <a href="/reports/stock-receipts">Stock Receipts Summary</a>
+              </li>
+              <li>
+            <a href="/reports/direct-material-issuances">Direct Material Issuances</a>
+          </li>
+          <li>
+            <a href="/reports/indirect-material-issuances">Indirect Material Issuances</a>
+          </li>
             </ul>        
           </div>
           

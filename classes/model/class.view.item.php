@@ -6,7 +6,7 @@ require_once(ROOT.DS.'classes'.DS.'database.php');
 class vItem extends DatabaseObject{
 	
 	protected static $table_name="item";
-	protected static $db_fields = array('id', 'code' ,'descriptor' ,'type' ,'itemcatid' ,'uom' ,'longdesc' ,'onhand' ,'minlevel' ,'maxlevel' ,'reorderqty' ,'avecost', 'value', 'catcode' ,'catname');
+	protected static $db_fields = array('id', 'code' ,'descriptor' ,'type' ,'itemcatid' ,'uom' ,'longdesc' ,'onhand' ,'minlevel' ,'maxlevel' ,'reorderqty' ,'avecost', 'value', 'catcode' ,'catname', 'item' ,'totqty', 'porefno');
 	
 	/*
 	* Database related fields
@@ -27,6 +27,9 @@ class vItem extends DatabaseObject{
 	public $catcode;
 	public $catname;
 	public $value;
+	public $item;
+	public $totqty;
+	public $porefno;
 
 
 
@@ -49,6 +52,19 @@ class vItem extends DatabaseObject{
 		$sql .= 'from item a left join itemcat b on a.itemcatid=b.id ';
 		$sql .= "where b.descriptor>='". $cat1 ."' and b.descriptor<='". $cat2."' ";
 		$sql .= 'order by catname, a.descriptor';
+		return parent::find_by_sql($sql);
+	}
+
+
+
+	public static function findAllStockReceiptsByDateRange($fr=NULL, $to=NULL, $posted='1'){
+		$sql = 'SELECT d.descriptor AS catname , c.code, c.descriptor , SUM(b.qty) AS totqty, c.uom, a.porefno ';
+		$sql .= 'FROM rcphdr a ';
+		$sql .= 'LEFT JOIN rcpdtl b ON a.id = b.rcphdrid ';
+		$sql .= 'LEFT JOIN item c ON b.itemid = c.id ';
+		$sql .= 'LEFT JOIN itemcat d ON c.itemcatid = d.id ';
+		$sql .= "WHERE a.date BETWEEN '".$fr."' AND '".$to."' AND a.posted = '".$posted."' ";
+		$sql .= 'GROUP BY 1, 3, 2, 5 ';
 		return parent::find_by_sql($sql);
 	}
 	
