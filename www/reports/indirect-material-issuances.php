@@ -106,7 +106,7 @@ if(isset($_GET['tab'])&&$_GET['tab']==='date'){
         </ul>        
       </div>
       <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main receipts">
-      <h4>Summary of Stock Receipts</h4>
+      <h4>Summary of Indirect Material Issuances</h4>
 
 
       <nav class="navbar navbar-default">
@@ -133,7 +133,9 @@ if(isset($_GET['tab'])&&$_GET['tab']==='date'){
 
   <ul class="nav nav-tabs" role="tablist" id="myTab">
     <li role="presentation" <?=!isset($_GET['tab'])?'class="active"':''?>><a href="/reports/stock-receipts">All</a></li>
+    <!--
     <li role="presentation" <?=(isset($_GET['tab'])&&$_GET['tab']==='date')?'class="active"':''?>><a href="/reports/stock-receipts?tab=date">by Date</a></li>
+    -->
   </ul>
 
   <div class="tab-content">

@@ -6,7 +6,10 @@ require_once(ROOT.DS.'classes'.DS.'database.php');
 class vItem extends DatabaseObject{
 	
 	protected static $table_name="item";
-	protected static $db_fields = array('id', 'code' ,'descriptor' ,'type' ,'itemcatid' ,'uom' ,'longdesc' ,'onhand' ,'minlevel' ,'maxlevel' ,'reorderqty' ,'avecost', 'value', 'catcode' ,'catname', 'item' ,'totqty', 'porefno');
+	protected static $db_fields = array('id', 'code' ,'descriptor' ,'type' ,'itemcatid' ,'uom' ,'longdesc' ,
+									'onhand' ,'minlevel' ,'maxlevel' ,'reorderqty' , 'avecost', 'value', 
+									'catcode' ,'catname', 'item' ,'totqty', 'porefno', 'operatorcode',
+									'operator', 'projectcode', 'project');
 	
 	/*
 	* Database related fields
@@ -24,12 +27,17 @@ class vItem extends DatabaseObject{
 	public $reorderqty;
 	public $avecost;
 
+
 	public $catcode;
 	public $catname;
 	public $value;
 	public $item;
 	public $totqty;
 	public $porefno;
+	public $projectcode;
+	public $project;
+	public $operatorcode;
+	public $operator;
 
 
 
@@ -65,6 +73,21 @@ class vItem extends DatabaseObject{
 		$sql .= 'LEFT JOIN itemcat d ON c.itemcatid = d.id ';
 		$sql .= "WHERE a.date BETWEEN '".$fr."' AND '".$to."' AND a.posted = '".$posted."' ";
 		$sql .= 'GROUP BY 1, 3, 2, 5 ';
+		return parent::find_by_sql($sql);
+	}
+
+	public static function DirectMaterialIssuancesByDateRange($fr=NULL, $to=NULL, $posted='1'){
+		$sql = 'select d.descriptor as catname, c.code , c.descriptor, ';
+		$sql .= 'sum( b.qty ) as totqty, c.uom, ';
+		$sql .= 'e.code as projectcode, e.descriptor as project, f.descriptor as operator, f.code as operatorcode ';
+		$sql .= 'from isdhdr a ';
+		$sql .= 'left join isddtl b on a.id=b.isdhdrid ';
+		$sql .= 'left join item c on b.itemid=c.id ';
+		$sql .= 'left join itemcat d on c.itemcatid=d.id ';
+		$sql .= 'left join project e on e.id = a.projectid ';
+		$sql .= 'left join operator f on f.id = a.operatorid ';
+		$sql .= "WHERE a.date BETWEEN '".$fr."' AND '".$to."' AND a.posted = '".$posted."' ";
+		$sql .= 'GROUP BY 3 ';
 		return parent::find_by_sql($sql);
 	}
 	
