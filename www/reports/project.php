@@ -1,7 +1,17 @@
 <?php
 require_once('../../lib/initialize.php');
 !$session->is_logged_in() ? redirect_to("/login"): "";
-$cleanUrl->setParts('projectid');
+$cleanUrl->setParts('projectid', 'bomid');
+
+/*
+if(!empty($bomid)) {
+
+  $bom = new Bom;
+  $bom->id = $bomid;
+  $bom->delete();
+
+}
+*/
 
 $project = Project::find_by_id($projectid);
 
@@ -228,9 +238,9 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
                     $c = '';
 
                   echo '<tr class="'.$c.'">';
+                  //echo '<td><a href="'.$_SERVER['REQUEST_URI'].'/'. $bom->id .'">'. $bom->catname .'</a></td>';
                   echo '<td>'. $bom->catname .'</td>';
-                  //echo '<td>'. $bom->itemcode .'</td>';
-                  echo '<td>'. $bom->itemname .'</td>';
+                  echo '<td id="'.$bom->itemid.'">'. $bom->itemname .'</td>';
                   //echo '<td>'. $bom->uom .'</td>';
                   echo '<td class="text-right">'. number_format($bom->avecost, 2) .'</td>';
                   echo '<td class="text-right">'. number_format($bom->qty, 0) .'</td>';

@@ -14,7 +14,7 @@ if(isset($_GET['fr']) && isset($_GET['to'])){
 if(isset($_GET['tab'])&&$_GET['tab']==='date'){
 
 } else {
-  $items = vItem::findAllStockReceiptsByDateRange($dr->fr, $dr->to);
+  $items = vItem::IndirectMaterialIssuancesByDateRange($dr->fr, $dr->to);
 
 }
 //global $database;
@@ -148,23 +148,22 @@ if(isset($_GET['tab'])&&$_GET['tab']==='date'){
       <table id="by-category" class="table table-striped">
         <thead>
           <tr>
-            <th>Category</th>
             <th>Item</th>
             <th class="text-right">Qty</th>
             <th>UoM</th>
-            <th>PO</th>
+            <th>Operator</th>
+            <th>Notes</th>
           </tr>
         </thead>
         <tbody>
       <?php
           foreach ($items as $item) {
             echo '<tr>';
-            echo '<td>'.$item->catname.'</td>';
             echo '<td>'.$item->descriptor.'</td>';
             echo '<td class="text-right">'.$item->totqty.'</td>';
             echo '<td>'.$item->uom.'</td>';
-            echo '<td>'.$item->porefno.'</td>';
-            //echo  $item->catname .' - '.$item->descriptor.' - '. $item->totqty .' - '.$item->porefno.'<br>';
+            echo '<td title="'.$item->operator.'" >'.$item->operatorcode.'</td>';
+            echo '<td>'.$item->notes.'</td>';
             echo '</tr>';
           }
         }

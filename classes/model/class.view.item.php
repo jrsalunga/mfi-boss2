@@ -9,7 +9,7 @@ class vItem extends DatabaseObject{
 	protected static $db_fields = array('id', 'code' ,'descriptor' ,'type' ,'itemcatid' ,'uom' ,'longdesc' ,
 									'onhand' ,'minlevel' ,'maxlevel' ,'reorderqty' , 'avecost', 'value', 
 									'catcode' ,'catname', 'item' ,'totqty', 'porefno', 'operatorcode',
-									'operator', 'projectcode', 'project');
+									'operator', 'projectcode', 'project', 'notes');
 	
 	/*
 	* Database related fields
@@ -26,6 +26,7 @@ class vItem extends DatabaseObject{
 	public $maxlevel;
 	public $reorderqty;
 	public $avecost;
+	public $notes;
 
 
 	public $catcode;
@@ -88,6 +89,18 @@ class vItem extends DatabaseObject{
 		$sql .= 'left join operator f on f.id = a.operatorid ';
 		$sql .= "WHERE a.date BETWEEN '".$fr."' AND '".$to."' AND a.posted = '".$posted."' ";
 		$sql .= 'GROUP BY 3 ';
+		return parent::find_by_sql($sql);
+	}
+
+
+	public static function IndirectMaterialIssuancesByDateRange($fr=NULL, $to=NULL, $posted='1'){
+		$sql = 'select c.code, c.descriptor, c.uom, sum( b.qty ) as totqty, a.notes, f.code as operatorcode ';
+		$sql .= 'from isshdr a  ';
+		$sql .= 'left join issdtl b on a.id=b.isshdrid  ';
+		$sql .= 'left join item c on b.itemid=c.id  ';
+		$sql .= 'left join operator f on f.id = a.operatorid ';
+		$sql .= "WHERE a.date BETWEEN '".$fr."' AND '".$to."' AND a.posted = '".$posted."' ";
+		$sql .= 'GROUP BY 2 ';
 		return parent::find_by_sql($sql);
 	}
 	

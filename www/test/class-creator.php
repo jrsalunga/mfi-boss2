@@ -4,7 +4,7 @@ include_once('../../lib/initialize.php');
 
 
 
-$sql = "DESCRIBE item";
+$sql = "DESCRIBE bom";
 $rows = $database->query($sql);
 
 while($row = $database->fetch_row($rows)) {
