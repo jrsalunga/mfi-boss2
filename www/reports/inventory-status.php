@@ -312,6 +312,7 @@ $datas = summaryReport($items, 'catname');
       $('#fr').on('change', function(){
         var success = false;
         var that = $(this);
+
         $('#to option').each(function(){
           //console.log(that.val()+'=='+$(this).val());
           if(that.val()==$(this).val()){
@@ -319,9 +320,11 @@ $datas = summaryReport($items, 'catname');
             $('#to').selectpicker('val',$(this).val());
             success = true;
           } else {
-            //console.log('false');
+           // console.log('false');
             if(!success){
               $(this).prop('disabled', true);
+            } else {
+              $(this).prop('disabled', false);
             }
           }
         });
