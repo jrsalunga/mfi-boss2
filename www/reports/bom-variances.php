@@ -118,9 +118,11 @@ require_once('../../lib/initialize.php');
           <li>
             <a href="/reports/indirect-material-issuances">Indirect Material Issuances</a>
           </li>
+          <li>
+            <a href="/reports/check-funding">Check Funding</a>
+          </li>
             </ul>        
           </div>
-          
           <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <table id="project-list" class="display" cellspacing="0" width="100%">
               <thead>

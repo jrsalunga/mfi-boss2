@@ -241,6 +241,7 @@ function groupSummary2($datas, $uf='id', $ttt=array(), $meta=array('code', 'desc
           foreach($gs['rs'] as $key => $value) {
             foreach($value['rs'] as $cvchkdtl) {
                 echo '<tr>';
+                echo '<td><a href="/reports/check-print/'.$cvchkdtl->cvhdrid.'" target="_blank">'.$cvchkdtl->refno.'</td>';
                 echo '<td>'.short_date($cvchkdtl->checkdate).'</td>';
                 echo '<td>'.$cvchkdtl->payee.'</td>';
                 echo '<td>'.$cvchkdtl->checkno.'</td>';
@@ -251,12 +252,12 @@ function groupSummary2($datas, $uf='id', $ttt=array(), $meta=array('code', 'desc
 
             echo '<tr>';
             echo '<td colspan="2"><strong>'.$value['bank'].'<br>'.$key.'<strong></td>';
-            echo '<td colspan="2" class="text-right">Total: <strong>&#8369; '.number_format($value['tot_amount'],2).'<strong></td>';
+            echo '<td colspan="3" class="text-right">Total: <strong>&#8369; '.number_format($value['tot_amount'],2).'<strong></td>';
             echo '</tr>';
           }
 
           echo '<tr>';
-          echo '<td colspan="4" class="text-right">Grand Total: <strong>&#8369; '.number_format($gs['gt_amount'],2).'<strong></td>';
+          echo '<td colspan="5" class="text-right">Grand Total: <strong>&#8369; '.number_format($gs['gt_amount'],2).'<strong></td>';
           echo '</tr>';
         }
       ?>
