@@ -41,7 +41,8 @@ class vCvchkdtl extends DatabaseObject{
 
   	public static function by_date_range($fr, $to){
 
-		$sql = 'select c.code as bankcode, c.descriptor as bank, c.id as bankid, c.acctno, b.checkdate, a.payee, b.checkno, b.amount, b.cvhdrid ';
+		$sql = 'select c.code as bankcode, c.descriptor as bank, c.id as bankid, c.acctno, ';
+		$sql .= 'b.checkdate, a.payee, b.checkno, b.amount, b.cvhdrid, a.refno ';
 		$sql .= 'from cvhdr a ';
 		$sql .= 'left join cvchkdtl b on a.id=b.cvhdrid ';
 		$sql .= 'left join bank c on b.bankacctid=c.id ';
