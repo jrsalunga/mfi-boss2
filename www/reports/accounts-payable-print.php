@@ -178,8 +178,7 @@ $(document).ready(function(){
 					$items = Apvdtl::find_all_by_field_id('apvhdr',$apvhdr->id);
 					foreach($items as $item){
 						$item_code = Account::row($item->accountid,0);
-						$item_descriptor = Account::row($item->accountid,1);
-						
+						$item_descriptor = Account::row($item->accountid,1);						
 						echo "<tr>";
 						echo "<td>". $item_code ."</td><td colspan='2'>". uc_first($item_descriptor)."</em></td><td>&#8369; ". number_format($item->amount,2) ."</td>";
 						echo "</tr>";
