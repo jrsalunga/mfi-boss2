@@ -122,7 +122,7 @@ $(document).ready(function(){
         </div>
     	<div id="header-wrap">
         	
-        	<h2>Modularfusion Inc</h2>
+        	<h2>ModularFusion Inc</h2>
             <p>1763 Paz M. Guanzon St., Paco, 1007 Manila</p>
             <h1 class="reportLabel">Check Voucher</h1>
         </div>		

@@ -21,3 +21,4 @@ RewriteRule ^indirect-material-issuances(.*)$ indirect-material-issuances.php
 RewriteRule ^print-stock-receipts(.*)$ print-stock-receipts.php
 RewriteRule ^check-funding(.*)$ check-funding.php
 RewriteRule ^check-print(.*)$ check-print.php
+RewriteRule ^accounts-payable-print(\/.*)*$ accounts-payable-print.php
