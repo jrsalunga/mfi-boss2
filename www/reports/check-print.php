@@ -1,8 +1,7 @@
 <?php
 include_once('../../lib/initialize.php');
-include_once('../../classes/class.cleanurl.php');
-#error_reporting(E_ALL);
-#ini_set('display_errors','On');
+error_reporting(E_ALL);
+ini_set('display_errors','On');
 $cleanUrl->setParts('cvhdrid');
 
 //echo is_uuid($cvhdrid) ? 'uid ':'not uid ';
@@ -124,7 +123,7 @@ $(document).ready(function(){
     	<div id="header-wrap">
         	
         	<h2>Modularfusion Inc</h2>
-            <p>Pacific Center Bldg, Quintin Paredes St., Manila</p>
+            <p>1763 Paz M. Guanzon St., Paco, 1007 Manila</p>
             <h1 class="reportLabel">Check Voucher</h1>
         </div>		
     </div>
