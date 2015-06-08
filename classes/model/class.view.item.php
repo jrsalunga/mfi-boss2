@@ -94,7 +94,7 @@ class vItem extends DatabaseObject{
 
 
 	public static function IndirectMaterialIssuancesByDateRange($fr=NULL, $to=NULL, $posted='1'){
-		$sql = 'select c.code, c.descriptor, c.uom, sum( b.qty ) as totqty, a.notes, f.code as operatorcode ';
+		$sql = 'select c.code, c.descriptor, c.uom, sum( b.qty ) as totqty, a.notes, f.descriptor as operator, f.code as operatorcode ';
 		$sql .= 'from isshdr a  ';
 		$sql .= 'left join issdtl b on a.id=b.isshdrid  ';
 		$sql .= 'left join item c on b.itemid=c.id  ';

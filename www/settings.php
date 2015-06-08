@@ -50,7 +50,7 @@ require_once('../lib/initialize.php');
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a href="/">Home</a></li>
-            <li><a href="/reports">Projects</a></li>
+            <li><a href="/reports">Reports</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>
