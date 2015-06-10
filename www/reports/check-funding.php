@@ -169,7 +169,7 @@ function groupSummary2($datas, $uf='id', $ttt=array(), $meta=array('code', 'desc
           </li>
         </ul>        
       </div>
-      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main receipts">
+      <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main check-funding">
       <h4>Check Funding Requirements</h4>
 
 
@@ -214,17 +214,7 @@ function groupSummary2($datas, $uf='id', $ttt=array(), $meta=array('code', 'desc
 
 
       ?>    
-      <table id="by-category" class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th>CV Ref No</th>
-            <th>Check Date</th>
-            <th>Payee</th>
-            <th>Check No</th>
-            <th class="text-right">Amount</th>
-          </tr>
-        </thead>
-        <tbody>
+      
       <?php
           /*
           foreach ($cvchkdtls as $cvchkdtl) {
@@ -237,32 +227,84 @@ function groupSummary2($datas, $uf='id', $ttt=array(), $meta=array('code', 'desc
             echo '</tr>';
           }
           */
-
+          $ctr = 0;
+          echo '<div class="panel-group">';
           foreach($gs['rs'] as $key => $value) {
+
+  
+            ?>
+
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">
+                <?php
+                echo '<a id="collapse-'.$ctr.'" class="collapsed" data-toggle="collapse" href="#collapse'.$ctr.'" aria-expanded="false" aria-controls="collapse'.$ctr.'">';
+                echo $value['bank'] .' - '. $key .'</a></h3>';
+                ?>
+              </div>
+              <div class="panel-body collapse in" id="collapse<?=$ctr?>">
+               
+
+
+            <table id="by-category" class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>CV Ref No</th>
+                <th>Check No</th>
+                <th>Check Date</th>
+                <th>Payee</th>
+                <th class="text-right">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+
+            <?php
             foreach($value['rs'] as $cvchkdtl) {
                 echo '<tr>';
                 echo '<td><a href="/reports/check-print/'.$cvchkdtl->cvhdrid.'" target="_blank">'.$cvchkdtl->refno.'</td>';
+                echo '<td>'.$cvchkdtl->checkno.'</td>';
                 echo '<td>'.short_date($cvchkdtl->checkdate).'</td>';
                 echo '<td>'.$cvchkdtl->payee.'</td>';
-                echo '<td>'.$cvchkdtl->checkno.'</td>';
                 echo '<td class="text-right">'.number_format($cvchkdtl->amount,2).'</td>';
                 //echo  $item->catname .' - '.$item->descriptor.' - '. $item->totqty .' - '.$item->porefno.'<br>';
                 echo '</tr>';
             }
 
+            ?>
+            </tbody>
+          </table>
+                    </div>
+              <div class="panel-footer text-right">Total: <strong>&#8369; <?=number_format($value['tot_amount'],2)?></strong></div>
+            </div>
+            <?php
+
+
+            /*
             echo '<tr>';
             echo '<td colspan="2"><strong>'.$value['bank'].'<br>'.$key.'<strong></td>';
             echo '<td colspan="3" class="text-right">Total: <strong>&#8369; '.number_format($value['tot_amount'],2).'<strong></td>';
             echo '</tr>';
+            */
+            $ctr++;
           }
+          
 
+
+          echo '<div class="panel panel-default">';
+          echo '<div class="panel-body text-right">';
+          echo 'Grand Total: <strong>&#8369; '.number_format($gs['gt_amount'],2).'</strong>';
+          echo '</div></div>';    
+
+          echo '</div>';
+
+          /*
           echo '<tr>';
           echo '<td colspan="5" class="text-right">Grand Total: <strong>&#8369; '.number_format($gs['gt_amount'],2).'<strong></td>';
           echo '</tr>';
+          */
         }
       ?>
-        </tbody>
-      </table>
+        
     </div>
   </div>
 

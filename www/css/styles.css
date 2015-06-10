@@ -23,6 +23,20 @@ table.table > tbody > tr > td {
 }
 
 
+/********* check funding *************/
+.check-funding .panel .panel-body.collapse,
+.check-funding .panel .panel-body.collapsing {
+	padding: 0;
+}
+
+.check-funding .panel .panel-body .table{
+	margin-bottom: 0;
+}
+
+
+
+
+
 /********* datatables *************/
 
 .dataTables_length select, .dataTables_filter input {
