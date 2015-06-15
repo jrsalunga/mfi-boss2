@@ -218,7 +218,7 @@ $datas = summaryReport($items, 'catname');
              // echo '';
              // echo' </div>';// end .panel-body  
               
-              echo '<div class="collapse" id="collapse'.$ctr.'">';
+              echo '<div class="collapse in" id="collapse'.$ctr.'">';
         ?>
         <div class="panel-body">
           <table class="table table-striped">
