@@ -32,6 +32,7 @@ function groupSummary2($datas, $uf='id', $ttt=array(), $meta=array('code', 'desc
   $chkctr=0;
   if($obj) {
     foreach($datas as $data){
+
       if(array_key_exists($data->{$uf}, $arr['rs'])) {
 
         //$arr[$data->{$uf}]['totamt'] +=  $data->amount;
@@ -41,10 +42,8 @@ function groupSummary2($datas, $uf='id', $ttt=array(), $meta=array('code', 'desc
             $arr['gt_' . $key] += $value;
             $arr['rs'][$data->$uf]['tot_' . $key] += $value;
           }
-
-          if(in_array($key, $meta)){
-            $arr['rs'][$data->$uf][$key] = $value;
-          }
+          
+          
             
         }
       } else {
@@ -55,6 +54,10 @@ function groupSummary2($datas, $uf='id', $ttt=array(), $meta=array('code', 'desc
           if(in_array($key, $ttt)){
             $arr['gt_' . $key] += $value;
             $arr['rs'][$data->$uf]['tot_' . $key] += $value;
+          }
+
+          if(in_array($key, $meta)){
+            $arr['rs'][$data->$uf][$key] = $value;
           }
         }
 

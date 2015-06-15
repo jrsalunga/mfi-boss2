@@ -151,6 +151,7 @@ if(isset($_GET['tab'])&&$_GET['tab']==='date'){
       <table id="by-category" class="table table-striped">
         <thead>
           <tr>
+            <th>SR Ref No</th>
             <th>Category</th>
             <th>Item</th>
             <th class="text-right">Qty</th>
@@ -162,6 +163,7 @@ if(isset($_GET['tab'])&&$_GET['tab']==='date'){
       <?php
           foreach ($items as $item) {
             echo '<tr>';
+            echo '<td><a href="/reports/print-stock-receipts/'.$item->rcphdrid.'" target="_blank">'.$item->refno.'</a></td>';
             echo '<td>'.$item->catname.'</td>';
             echo '<td>'.$item->descriptor.'</td>';
             echo '<td class="text-right">'.$item->totqty.'</td>';

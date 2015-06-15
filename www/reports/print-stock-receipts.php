@@ -1,18 +1,18 @@
 <?php
 include_once('../../lib/initialize.php');
 include_once('../../classes/class.cleanurl.php');
-#error_reporting(E_ALL);
-//ini_set('display_errors','On');
-$cleanUrl->setParts('apvhdrid');
+error_reporting(E_ALL);
+ini_set('display_errors','On');
+$cleanUrl->setParts('rcphdrid');
 
 //echo $apvhdrid;
-if(is_uuid($apvhdrid)){
-	$apvhdr = vApvhdr::find_by_id($apvhdrid);
-	if(!$apvhdr){
-		$apvhdr = vApvhdr::first('refno');
+if(is_uuid($rcphdrid)){
+	$rcphdr = vRcpvhdr::find_by_id($apvhdrid);
+	if(!$rcphdr){
+		$rcphdr = vRcpvhdr::first('refno');
 	}
 } else {
-	$apvhdr = vApvhdr::first('refno');
+	$rcphdr = vRcpvhdr::first('refno');
 }
 //$apvhdr = vApvhdr::find_by_id($apvhdrid);
 //global $database;
@@ -26,7 +26,7 @@ if(is_uuid($apvhdrid)){
 <head>
 <meta charset="utf-8">
 <title>Accounts Payable : <?=$apvhdr->refno?></title>
-<link rel="shortcut icon" type="image/x-icon" href="../images/memoxpress-favicon.jpg" />
+<link rel="shortcut icon" type="image/x-icon" href="/images/mfi-logo.png" />
 
 <link rel="stylesheet" href="/css/print.css">
 
@@ -123,13 +123,13 @@ $(document).ready(function(){
     </div>
     <div id="header">
     	<div id="main-logo">
-            <img src="<?=$relativeslash?>../images/memoxpress.png" />
+            <img src="/images/mfi-logo.png" />
         </div>
     	<div id="header-wrap">
         	
-        	<h2>MemoXpress</h2>
-            <p>Pacific Center Bldg, Quintin Paredes St., Manila</p>
-            <h1 class="reportLabel">Accounts Payable Voucher</h1>
+        	h2>ModularFusion Inc</h2>
+            <p>1763 Paz M. Guanzon St., Paco, 1007 Manila</p>
+            <h1 class="reportLabel">Stock Receipts</h1>
         </div>		
     </div>
     <div id="body">

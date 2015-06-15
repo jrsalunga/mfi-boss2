@@ -9,7 +9,7 @@ class vItem extends DatabaseObject{
 	protected static $db_fields = array('id', 'code' ,'descriptor' ,'type' ,'itemcatid' ,'uom' ,'longdesc' ,
 									'onhand' ,'minlevel' ,'maxlevel' ,'reorderqty' , 'avecost', 'value', 
 									'catcode' ,'catname', 'item' ,'totqty', 'porefno', 'operatorcode',
-									'operator', 'projectcode', 'project', 'notes');
+									'operator', 'projectcode', 'project', 'notes', 'rcphdrid', 'refno');
 	
 	/*
 	* Database related fields
@@ -39,6 +39,9 @@ class vItem extends DatabaseObject{
 	public $project;
 	public $operatorcode;
 	public $operator;
+	public $rcphdrid;
+	public $refno;
+
 
 
 
@@ -67,7 +70,7 @@ class vItem extends DatabaseObject{
 
 
 	public static function findAllStockReceiptsByDateRange($fr=NULL, $to=NULL, $posted='1'){
-		$sql = 'SELECT d.descriptor AS catname , c.code, c.descriptor , SUM(b.qty) AS totqty, c.uom, a.porefno ';
+		$sql = 'SELECT d.descriptor AS catname , c.code, c.descriptor , SUM(b.qty) AS totqty, c.uom, a.porefno,  b.rcphdrid, a.refno ';
 		$sql .= 'FROM rcphdr a ';
 		$sql .= 'LEFT JOIN rcpdtl b ON a.id = b.rcphdrid ';
 		$sql .= 'LEFT JOIN item c ON b.itemid = c.id ';
