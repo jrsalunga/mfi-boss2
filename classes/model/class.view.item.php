@@ -91,7 +91,8 @@ class vItem extends DatabaseObject{
 		$sql .= 'left join project e on e.id = a.projectid ';
 		$sql .= 'left join operator f on f.id = a.operatorid ';
 		$sql .= "WHERE a.date BETWEEN '".$fr."' AND '".$to."' AND a.posted = '".$posted."' ";
-		$sql .= 'GROUP BY 3 ';
+		$sql .= 'GROUP BY e.code, c.code ';
+		$sql .= 'ORDER BY c.descriptor, e.descriptor ';
 		return parent::find_by_sql($sql);
 	}
 
