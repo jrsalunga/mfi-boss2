@@ -5,19 +5,19 @@ error_reporting(E_ALL);
 ini_set('display_errors','On');
 $cleanUrl->setParts('rcphdrid');
 
-//echo $apvhdrid;
+//echo $rcphdrid;
 if(is_uuid($rcphdrid)){
-	$rcphdr = vRcpvhdr::find_by_id($apvhdrid);
+	$rcphdr = vRcphdr::find_by_id($rcphdrid);
 	if(!$rcphdr){
-		$rcphdr = vRcpvhdr::first('refno');
+		$rcphdr = vRcphdr::first('refno');
 	}
 } else {
-	$rcphdr = vRcpvhdr::first('refno');
+	$rcphdr = vRcphdr::first('refno');
 }
-//$apvhdr = vApvhdr::find_by_id($apvhdrid);
+//$rcphdr = vrcphdr::find_by_id($rcphdrid);
 //global $database;
 //echo $database->last_query;
-//echo var_dump($cvhdr);
+//  echo var_dump($rcphdr);
 
 
 ?>
@@ -25,7 +25,7 @@ if(is_uuid($rcphdrid)){
 <html lang="en-ph">
 <head>
 <meta charset="utf-8">
-<title>Accounts Payable : <?=$apvhdr->refno?></title>
+<title>Stock Receipts : <?=$rcphdr->refno?></title>
 <link rel="shortcut icon" type="image/x-icon" href="/images/mfi-logo.png" />
 
 <link rel="stylesheet" href="/css/print.css">
@@ -115,10 +115,10 @@ $(document).ready(function(){
 
 
 <div id="page-wrap">
-	<div class="isposted" style="visibility: <?=$apvhdr->posted==1?"visible":"hidden"?>">
+	<div class="isposted" style="visibility: <?=$rcphdr->posted==1?"visible":"hidden"?>">
     	<h1>Posted</h1>
     </div>
-    <div class="iscancelled" style="visibility: <?=$apvhdr->cancelled==1?"visible":"hidden"?>">
+    <div class="iscancelled" style="visibility: <?=$rcphdr->cancelled==1?"visible":"hidden"?>">
     	<h1>Cancelled</h1>
     </div>
     <div id="header">
@@ -127,7 +127,7 @@ $(document).ready(function(){
         </div>
     	<div id="header-wrap">
         	
-        	h2>ModularFusion Inc</h2>
+        	<h2>ModularFusion Inc</h2>
             <p>1763 Paz M. Guanzon St., Paco, 1007 Manila</p>
             <h1 class="reportLabel">Stock Receipts</h1>
         </div>		
@@ -137,29 +137,32 @@ $(document).ready(function(){
    			<div id="hdr">
             	<div id="supplier-title">
                 <?php
-					#$location = Location::find_by_id($apvhdr->locationid);
+					#$location = Location::find_by_id($rcphdr->locationid);
 				?>
                 <div></div>
                 </div>           	
                 <table id="meta">
                 	<tbody>
                     	<tr>
-                        	<td>Reference #</td><td><?=$apvhdr->refno?></td>
+                        	<td>Reference #</td><td><?=$rcphdr->refno?></td>
                         </tr>
                         <tr>
-                        	<td>Date</td><td><?=short_date($apvhdr->date)?></td>
+                        	<td>Date</td><td><?=short_date($rcphdr->date)?></td>
                         </tr>
                         <tr>
-                        	<td>Due</td><td><?=short_date($apvhdr->due)?></td>
+                        	<td>Due</td><td><?=date('m/d/Y', strtotime($rcphdr->date . ' + '.$rcphdr->terms.' day'))?></td>
                         </tr>
                         <tr>
-                        	<td>Supplier</td><td><?=Supplier::row($apvhdr->supplierid,1)?></td>
+                        	<td>Supplier</td><td><?=Supplier::row($rcphdr->supplierid,1)?></td>
                         </tr>
                         <tr>
-                        	<td>Supplier Ref #</td><td><?=$apvhdr->supprefno?></td>
+                        	<td>Supplier Ref #</td><td><?=$rcphdr->supprefno?></td>
                         </tr>
                         <tr>
-                        	<td>PO Ref #</td><td><?=$apvhdr->porefno?></td>
+                        	<td>PO Ref #</td><td><?=$rcphdr->porefno?></td>
+                        </tr>
+                        <tr>
+                            <td>Branch</td><td><?=Branch::row($rcphdr->branchid,1)?></td>
                         </tr>
                     </tbody>
                 </table>
@@ -168,64 +171,44 @@ $(document).ready(function(){
             <table id="items">
             	<thead>
                 	<tr>
-                    	<th>Code </th>
-                        <th colspan="2">Description</th>             
+                    	<th>Item Code</th>
+                        <th>Item</th>  
+                        <th>Qty</th>   
+                        <th>Unit Cost</th>          
                         <th>Amount</th>
                     </tr>
                 </thead>
                 <tbody>
                 	<?php
-					$items = Apvdtl::find_all_by_field_id('apvhdr',$apvhdr->id);
-					foreach($items as $item){
-						$item_code = Account::row($item->accountid,0);
-						$item_descriptor = Account::row($item->accountid,1);
+					$rcpdtls = vRcpdtl::find_all_by_field_id('rcphdr',$rcphdr->id);
+					foreach($rcpdtls as $rcpdtl){
+						
 						
 						echo "<tr>";
-						echo "<td>". $item_code ."</td><td colspan='2'>". uc_first($item_descriptor)."</em></td><td>&#8369; ". number_format($item->amount,2) ."</td>";
+						echo "<td>". $rcpdtl->itemcode ."</td>";
+                        echo '<td>'. $rcpdtl->item."</em></td>";
+                        echo '<td>'. $rcpdtl->qty .'</td>';
+                        echo '<td>&#8369; '. number_format($rcpdtl->unitcost,2) ."</td>";
+                        echo '<td>&#8369; '. number_format($rcpdtl->amount,2) ."</td>";
 						echo "</tr>";
 					}				
 					?>
                     <tr>
                     	<td class="blank" colspan="0"></td>
                         <td class="blank" colspan="0"></td>
+                        <td class="blank" colspan="0"></td>
                         <td class="total-line" colspan="0">Total Amount</td>
-                        <td class="total-value">&#8369; <?=number_format($apvhdr->totamount,2)?></td>
+                        <td class="total-value" colspan="0">&#8369; <?=number_format($rcphdr->totamount,2)?></td>
                     </tr>
-                    <tr>
-                    	<td class="blank" colspan="0"></td>
-                        <td class="blank" colspan="0"></td>
-                        <td class="total-line" colspan="0">Total Debit</td>
-                        <td class="total-value">&#8369; <?=number_format($apvhdr->totdebit,2)?></td>
-                    </tr>
-                    <tr>
-                    	<td class="blank" colspan="0"></td>
-                        <td class="blank" colspan="0"></td>
-                        <td class="total-line" colspan="0">Total Credit</td>
-                        <td class="total-value">&#8369; <?=number_format($apvhdr->totcredit,2)?></td>
-                    </tr>
-                    <tr>
-                    	<td class="blank" colspan="0"></td>
-                        <td class="blank" colspan="0"></td>
-                        <td class="total-line" colspan="0">Balance</td>
-                        <td class="total-value">&#8369; <?=number_format($apvhdr->balance,2)?></td>
-                    </tr>
+                    
                 </tbody>
             </table>
     	</div>
-        <div style="margin: 0 20px 50px;"><strong>Notes:</strong> <em><?=$apvhdr->notes?></em></div>
+        <div style="margin: 0 20px 50px;"><strong>Notes:</strong> <em><?=$rcphdr->notes?></em></div>
     </div>
     <div id="footer" class="bottom">
     	<div>
-        <?php
-			$cvapvdtl = vCvapvdtl::find_by_field_id('apvhdr', $apvhdr->id);
-			if(!$cvapvdtl){
-				echo '<p>no check voucher</p>';
-			} else {
-				$cvhdr = Cvhdr::find_by_id($cvapvdtl->cvhdrid);
-				echo '<p>with check voucher ref no <a href="/reports/check-print/'.$cvhdr->id.'" target="_blank">'.$cvhdr->refno.'</a> ';
-				echo $cvhdr->posted==1 ? '<span title="Posted" class="glyphicon glyphicon-posted-bw"></span></p>':'<span title="Unposted" class="glyphicon glyphicon-unposted-bw"></span></p>';	
-			}
-		?>
+        
         </div>
     </div>
 </div>
@@ -236,16 +219,16 @@ $(document).ready(function(){
         Print Preview</a>
   	</div>
     <?php
-		$n = Apvhdr::next('refno', $apvhdr->refno);
-		$p = Apvhdr::previous('refno', $apvhdr->refno);
+		$n = vRcphdr::next('refno', $rcphdr->refno);
+		$p = vRcphdr::previous('refno', $rcphdr->refno);
 	?>
     <div class="pager-c">
     	<ul class="pager">
           <li class="previous">
-          	<?=$p?'<a href="/reports/accounts-payable-print/'.$p->id.'">Prev</a>':'<span class="disabled">Prev</span>'?>
+          	<?=$p?'<a href="/reports/print-stock-receipts/'.$p->id.'">Prev</a>':'<span class="disabled">Prev</span>'?>
           </li>
           <li class="next">
-          	<?=$n?'<a href="/reports/accounts-payable-print/'.$n->id.'">Next</a>':'<span class="disabled">Next</span>'?>
+          	<?=$n?'<a href="/reports/print-stock-receipts/'.$n->id.'">Next</a>':'<span class="disabled">Next</span>'?>
           </li>
         </ul>
     </div>
