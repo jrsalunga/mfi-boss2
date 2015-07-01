@@ -1,17 +1,7 @@
 <?php
 require_once('../../lib/initialize.php');
 !$session->is_logged_in() ? redirect_to("/login"): "";
-$cleanUrl->setParts('projectid', 'bomid');
-
-/*
-if(!empty($bomid)) {
-
-  $bom = new Bom;
-  $bom->id = $bomid;
-  $bom->delete();
-
-}
-*/
+$cleanUrl->setParts('projectid');
 
 $project = Project::find_by_id($projectid);
 
@@ -68,7 +58,7 @@ function summarizeProdhdr($datas, $uf){
     return $arr;
 }
 
-$gs3 = summarizeProdhdr($prodhdrs, 'opnid');
+//$gs3 = summarizeProdhdr($prodhdrs, 'opnid');
 ////global $database;
 //echo $database->last_query;
 
@@ -88,7 +78,7 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
     <link rel="shortcut icon" type="image/x-icon" href="/images/mfi-logo.png" />
 
 
-    <title>Modular Fusion - Project</title>
+    <title>Modular Fusion - Project DM</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/css/bootstrap.min.css" rel="stylesheet">
@@ -264,94 +254,8 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
 
 
 
-          <!--
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">Direct Labor</h3>
-            </div>
-            <div class="panel-body">
-              <div class="col-md-1">
-                <a id="collapse-p" class="btn btn-default collapsed" data-toggle="collapse" href="#collapseDL" aria-expanded="false" aria-controls="collapseDL">
-                  <span class="glyphicon glyphicon-folder-close"></span>
-                </a>
-              </div>
-              <div class="col-md-2 col-md-offset-6 text-right">Total Hours: <b><?=number_format($gs3['g_hrs'],2)?></b></div>
-              <div class="col-md-3 text-right">Total Cost: <b><?=number_format($gs3['g_cost'],2)?></b></div>
-            </div>
-
-              
-              <div class="collapse" id="collapseDL">
-                
-                
-                <table class="table">
-                  <thead>
-
-                  </thead>
-                    <tr>
-                      <td class="text-center">Operation</td>
-                      <td class="">Hours</td>
-                      <td class="text-center">Cost</td>
-                    </tr>
-                  <tbody>
-                  <?php
-                    foreach ($gs3['rs'] as $items => $item_rs) {
-                        echo '<tr>';
-                        echo '<td>'. $item_rs['operation'] .'</td>';
-                        echo '<td>'. $item_rs['tothrs'] .'</td>';
-                        echo '<td class="text-right">'. number_format($item_rs['totcost'], 2) .'</td>';
-                        echo '</tr>';
-                    }
-                  ?>
-                 
-                  </tbody>
-                </table>  
-                
-              </div>
-              
-            
-          </div>
-          -->
-
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">Expenses</h3>
-            </div>
-            <div class="panel-body">
-              
-              <div class="col-md-1">
-                <a id="collapse-p" class="btn btn-default collapsed" data-toggle="collapse" href="#collapseP" aria-expanded="false" aria-controls="collapseP">
-                  <span class="glyphicon glyphicon-folder-close"></span>
-                </a>
-              </div>
-              <div class="col-md-2 col-md-offset-9 text-right">Total Amount: <b><?=number_format($gs2['gt_amount'],2)?></b></div>
-            
-
-
-
-            </div>
-            <div class="collapse" id="collapseP">
-            <table class="table">
-              <thead>
-
-              </thead>
-                <tr>
-                  <td class="text-center">Account</td>
-                  <td class="">Ref No</td>
-                  <td class="text-center">Amount</td>
-                </tr>
-              <tbody>
-              <?php
-                foreach ($apvdtls as $apvdtl) {
-                  echo '<tr>';
-                  echo '<td>'. $apvdtl->account .'</td>';
-                  echo '<td>'. $apvdtl->refno .'</td>';
-                  echo '<td class="text-right">'. number_format($apvdtl->amount, 2) .'</td>';
-                  echo '</tr>';
-                }
-              ?>
-              </tbody>
-            </table>  
-          </div>
+         
+          
           
           <div class="col-md-12">
           

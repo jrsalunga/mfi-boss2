@@ -21,6 +21,5 @@ RewriteRule ^login(.*)$ login.php
 RewriteRule ^logout(.*)$ logout.php
 RewriteRule ^settings(.*)$ settings.php
 RewriteRule ^reports(.*)$ reports.php
-RewriteRule ^project(\/.*)*$ project.php
 RewriteRule ^project-print(\/.*)*$ project-print.php
 

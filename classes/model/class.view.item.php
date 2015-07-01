@@ -9,7 +9,9 @@ class vItem extends DatabaseObject{
 	protected static $db_fields = array('id', 'code' ,'descriptor' ,'type' ,'itemcatid' ,'uom' ,'longdesc' ,
 									'onhand' ,'minlevel' ,'maxlevel' ,'reorderqty' , 'avecost', 'value', 
 									'catcode' ,'catname', 'item' ,'totqty', 'porefno', 'operatorcode',
-									'operator', 'projectcode', 'project', 'notes', 'rcphdrid', 'refno');
+									'operator', 'projectcode', 'project', 'notes', 'rcphdrid', 'refno',
+									'txncode', 'postdate', 'qty', 'prevbal', 'currbal'
+									);
 	
 	/*
 	* Database related fields
@@ -41,6 +43,12 @@ class vItem extends DatabaseObject{
 	public $operator;
 	public $rcphdrid;
 	public $refno;
+
+	public $txncode;
+	public $postdate;
+	public $qty;
+	public $prevbal;
+	public $currbal;
 
 
 
@@ -105,6 +113,20 @@ class vItem extends DatabaseObject{
 		$sql .= 'left join operator f on f.id = a.operatorid ';
 		$sql .= "WHERE a.date BETWEEN '".$fr."' AND '".$to."' AND a.posted = '".$posted."' ";
 		$sql .= 'GROUP BY 2 ';
+		return parent::find_by_sql($sql);
+	}
+
+
+	public static function findByCategoryByDate($cat1=NULL, $cat2=NULL, $fr=NULL, $to=NULL){
+		$sql = 'select a.itemid as id, a.postdate, a.txncode, a.qty, a.prevbal, a.currbal, b.code as itemcode, ';
+		$sql .= 'b.descriptor as itemname, b.uom, c.code as catcode, c.descriptor as catname, b.id ';
+		$sql .= 'from stockcard a ';
+		$sql .= 'join item b on a.itemid=b.id ';
+		$sql .= 'left join itemcat c on b.itemcatid=c.id ';
+		$sql .= "where c.descriptor BETWEEN '".$cat1."' and '".$cat2."' ";
+		$sql .= "and a.postdate between '".$fr."' and '".$to."' ";
+		$sql .= 'order by c.descriptor, b.descriptor, a.postdate ';
+
 		return parent::find_by_sql($sql);
 	}
 	

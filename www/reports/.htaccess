@@ -11,14 +11,16 @@ RewriteEngine on
 RewriteRule ^index(\/.*)*$ index.php
 
 
+RewriteRule ^inventory-movement(\.*)$ inventory-movement.php
+RewriteRule ^bom-variances(\.*)$ bom-variances.php
+RewriteRule ^inventory-status(\.*)$ inventory-status.php
+RewriteRule ^project-dm(\/.*)$ project-dm.php
+RewriteRule ^project(\/.*)*$ project.php
 
-RewriteRule ^bom-variances(.*)$ bom-variances.php
-RewriteRule ^inventory-status(.*)$ inventory-status.php
-RewriteRule ^project(.*)$ project.php
-RewriteRule ^stock-receipts(.*)$ stock-receipts.php
-RewriteRule ^direct-material-issuances(.*)$ direct-material-issuances.php
-RewriteRule ^indirect-material-issuances(.*)$ indirect-material-issuances.php
-RewriteRule ^print-stock-receipts(.*)$ print-stock-receipts.php
-RewriteRule ^check-funding(.*)$ check-funding.php
-RewriteRule ^check-print(.*)$ check-print.php
+RewriteRule ^stock-receipts(\.*)$ stock-receipts.php
+RewriteRule ^direct-material-issuances(\.*)$ direct-material-issuances.php
+RewriteRule ^indirect-material-issuances(\.*)$ indirect-material-issuances.php
+RewriteRule ^print-stock-receipts(\/.*)$ print-stock-receipts.php
+RewriteRule ^check-funding(\.*)$ check-funding.php
+RewriteRule ^check-print(\/.*)$ check-print.php
 RewriteRule ^accounts-payable-print(\/.*)*$ accounts-payable-print.php

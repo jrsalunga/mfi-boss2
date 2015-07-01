@@ -1,39 +1,59 @@
 <?php
 require_once('../../lib/initialize.php');
 !$session->is_logged_in() ? redirect_to("/login"): "";
-
+//error_reporting(E_ALL);
+//ini_set('display_errors','On');
 
 $itemcats = Itemcat::find_all();
 
-
 if(isset($_GET['all'])){
-  $fr = 'ALUMINUM MATERIALS';
-  $to = 'SPECIAL HARDWARE';
+  $cat1 = 'ALUMINUM MATERIALS';
+  $cat2 = 'SPECIAL HARDWARE';
 } else {
-  $fr =sanitize($_GET['fr']);
-  $to = sanitize($_GET['to']);
+  $cat1 = sanitize($_GET['cat1']);
+  $cat2 = sanitize($_GET['cat2']);
 }
-$items = vItem::findByCategory($fr, $to);
+
+if(isset($_GET['fr']) && isset($_GET['to'])){
+    sanitize($_GET);
+    $dr = new DateRange($_GET['fr'],$_GET['to']);
+} else {
+    $dr = new DateRange(NULL,NULL,false);   
+}
+
+$items = vItem::findByCategoryByDate($cat1, $cat2, $dr->fr, $dr->to);
 //global $database;
 //echo $database->last_query;
 
-function summaryReport($datas ,$uf='id', $obj=TRUE){
+//echo json_encode($items);
+//exit;
+
+function itemByCategoryByDateSummary($datas ,$uf='id', $obj=TRUE){
   $arr = array();
-  $chkctr=0;
+
+  $lastid=0;
 
   if($obj) {
     foreach($datas as $data){
-      
-      if(array_key_exists($data->catname, $arr)) {
-        $arr[$data->{$uf}]['value'] +=  $data->value;
-        $arr[$data->{$uf}]['onhand'] +=  $data->onhand;
-       
+      //echo $data->{$uf}.'<br>';
+      if(array_key_exists($data->{$uf}, $arr)) {
+        
+        $arr[$data->{$uf}]['enddate'] =  $data->postdate;
+        $arr[$data->{$uf}]['endbal'] =  $data->currbal;
+        //echo 'init array<br>';
       } else {
         $arr[$data->{$uf}]['rs'] = array();
-        $arr[$data->{$uf}]['value'] =  $data->value;
-        $arr[$data->{$uf}]['onhand'] =  $data->onhand;
-      
+        $arr[$data->{$uf}]['begbal'] =  $data->prevbal;
+        $arr[$data->{$uf}]['begdate'] =  $data->postdate;
+        $arr[$data->{$uf}]['endbal'] =  $data->currbal;
       }
+
+      if($data->txncode=='RCP'){
+          $arr[$data->{$uf}]['rcp'] += $data->qty;
+        } else {
+          $arr[$data->{$uf}]['isd'] += $data->qty;
+        }
+      //echo json_encode($data);
       array_push($arr[$data->{$uf}]['rs'], $data);
     }
   } else {
@@ -50,7 +70,7 @@ function summaryReport($datas ,$uf='id', $obj=TRUE){
   return $arr;  
 }
 
-$datas = summaryReport($items, 'catname');
+$datas = itemByCategoryByDateSummary($items, 'id');
 
 //echo json_encode($datas);
 //exit;
@@ -129,11 +149,11 @@ $datas = summaryReport($items, 'catname');
           <li>
             <a href="/reports/bom-variances">Project BOM Variances</a>
           </li>
-          <li class="active">
+          <li>
             <a href="/reports/inventory-status">Inventory Status</a>
           </li>
-          <li>
-               <a href="/reports/inventory-movement">Inventory Movement</a>
+          <li class="active">
+                <a href="/reports/inventory-movement">Inventory Movement</a>
               </li>
           <li>
             <a href="/reports/stock-receipts">Stock Receipts Summary</a>
@@ -150,30 +170,42 @@ $datas = summaryReport($items, 'catname');
         </ul>        
       </div>
       <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main inventory-status">
-        <h4>Status of Inventory</h4>
+        <h4>Inventory Movement</h4>
 
         <nav class="navbar navbar-default">
         
         <form class="navbar-form form-inline pull-right">
+          
+            <div class="form-group">
+                <label class="sr-only" for="fr">From:</label>
+                <input type="text" class="form-control" id="fr" name="fr" placeholder="YYYY-MM-DD" value="<?=$dr->fr?>">
+            </div>  
+            <div class="form-group">
+                <label class="sr-only" for="to">To:</label>
+                <input type="text" class="form-control" id="to" name="to" placeholder="YYYY-MM-DD"  value="<?=$dr->to?>">
+            </div>
+
+            
+          
         <div class="form-group">
-          <label for="fr">From item category </label>
-            <select name="fr"  id="fr" class="selectpicker show-tick">
+          <label for="cat1">Category </label>
+            <select name="cat1"  id="cat1" class="selectpicker show-tick">
             <?php
                 foreach ($itemcats as $itemcat) {
                   echo '<option ';
-                  echo $_GET['fr']==$itemcat->descriptor ? 'selected':'';
+                  echo $_GET['cat1']==$itemcat->descriptor ? 'selected':'';
                   echo '>'.$itemcat->descriptor.'</option>';
                 }
             ?>
             </select>
           </div>
           <div class="form-group">
-            <label for="to">to</label>
-            <select name="to" id="to" class="selectpicker show-tick">
+            <label for="cat2"></label>
+            <select name="cat2" id="cat2" class="selectpicker show-tick">
             <?php
                 $flag = false;
                 foreach ($itemcats as $itemcat) {
-                  if(!$flag && isset($_GET['to']) && $_GET['to']!=$itemcat->descriptor){
+                  if(!$flag && isset($_GET['cat2']) && $_GET['cat2']!=$itemcat->descriptor){
                     echo '<option disabled>'.$itemcat->descriptor.'</option>';
                   } else {
                     echo '<option>'.$itemcat->descriptor.'</option>';
@@ -213,27 +245,40 @@ $datas = summaryReport($items, 'catname');
           $ctr = 0;
           foreach ($datas as $key => $value) {
             //var_dump($value[rs]);
+            $i = vItem::row($key, 1);
 
             echo '<div class="panel panel-default">';
               echo '<div class="panel-heading">';
                 echo '<h3 class="panel-title">';
                 echo '<a id="collapse-'.$ctr.'" class="collapsed" data-toggle="collapse" href="#collapse'.$ctr.'" aria-expanded="false" aria-controls="collapse'.$ctr.'">';
-                echo $key.'</a></h3>';
+                echo $i.'</a></h3>';
               echo '</div>';
              // echo '';
              // echo' </div>';// end .panel-body  
               
-              echo '<div class="collapse in" id="collapse'.$ctr.'">';
+              
         ?>
         <div class="panel-body">
+              
+              <div class="col-md-1">
+                <a id="collapse-dm" class="btn btn-default collapsed" data-toggle="collapse" href="#collapse<?=$ctr?>" aria-expanded="false" aria-controls="collapseDM">
+                  <span class="glyphicon glyphicon-folder-close"></span>
+                </a>
+              </div>
+              <div class="col-md-2 text-right">Beginning Balance: <b><?=number_format($value['begbal'],0)?></b></div>
+              <div class="col-md-3 text-right">In: <b><?=number_format($value['rcp'],0)?></b></div>
+              <div class="col-md-3 text-right">Out: <b><?=number_format(abs($value['isd']),0)?></b></div>
+              <div class="col-md-3 text-right">Ending Balance: <b><?=number_format($value['endbal'],0)?></b></div>
+          
+          <div class="collapse" id="collapse<?=$ctr?>">
           <table class="table table-striped">
           <thead>
             <tr>
               <th class="hidden-sm hidden-xs">Code <div>&nbsp;&nbsp;</div></th>
-              <th>Item <div>&nbsp;&nbsp;</div></th>
-              <th class="text-right">Ave Cost <div>&nbsp;&nbsp;</div></th>
-              <th class="text-right">On Hand <div>&nbsp;&nbsp;</div></th>       
-              <th class="text-right">Total Cost <div>&nbsp;&nbsp;</div></th>
+              <th>Post Date <div>&nbsp;&nbsp;</div></th>
+              <th class="text-right">Quantity <div>&nbsp;&nbsp;</div></th>
+              <th class="text-right">Previous Bal <div>&nbsp;&nbsp;</div></th>       
+              <th class="text-right">Current Bal<div>&nbsp;&nbsp;</div></th>
             </tr>
             
           </thead>
@@ -247,25 +292,17 @@ $datas = summaryReport($items, 'catname');
 
               foreach ($value['rs'] as $item) {
                 echo '<tr>';
-                echo '<td class="hidden-sm hidden-xs">'. $item->code .'</td>';
-                echo '<td>'. $item->descriptor .'</td>';
-                echo '<td class="text-right">'. number_format($item->avecost, 2) .'</td>';
-                echo '<td class="text-right" title="'. $item->onhand .' '. $item->uom .'">'. $item->onhand .'</td>';
-                echo '<td class="text-right">'. number_format($item->value, 2) .'</td>';
+                echo '<td class="hidden-sm hidden-xs">'. $item->txncode .'</td>';
+                echo '<td>'. short_date($item->postdate) .'</td>';
+                echo '<td class="text-right">'. number_format($item->qty, 0) .'</td>';
+                echo '<td class="text-right">'. number_format($item->prevbal, 0) .'</td>';
+                echo '<td class="text-right">'. number_format($item->currbal, 0) .'</td>';
                 echo '</tr>';
               }
               ?>
           </tbody>
           </table>
-          <div class="col-md-1" title="Collapse In">
-            <a id="collapse-<?=$ctr?>" class="btn btn-default collapsed" data-toggle="collapse" href="#collapse<?=$ctr?>" aria-expanded="false" aria-controls="collapse<?=$ctr?>">
-              <span class="glyphicon glyphicon-menu-hamburger"></span>
-            </a>
-          </div>
-          <div class="col-md-2"></div>
-          <div class="col-md-3"></div>
-          <div class="col-md-3 text-right">Total On Hand: <b><?=number_format($value['onhand'],0)?></b></div>
-          <div class="col-md-3 text-right">Total Amount: <b><?=number_format($value['value'],2)?></b></div> 
+          
           </div>  <!-- end collapse --> 
 
         <?php
@@ -312,20 +349,47 @@ $datas = summaryReport($items, 'catname');
     <script src="/js/vendors/moment-2.8.4.min.js"></script>
     <script src="/js/vendors/accounting-0.4.1.min.js"></script>
 
+ 
+
+
 
     <script type="text/javascript">
+    function daterange(){
+
+    $( "#fr" ).datepicker({
+        defaultDate: "+1w",
+        dateFormat: 'yy-mm-dd',
+        changeMonth: true,
+        numberOfMonths: 2,
+        onClose: function( selectedDate ) {
+          $( "#to" ).datepicker( "option", "minDate", selectedDate );
+        }
+      });
+      $( "#to" ).datepicker({
+        defaultDate: "+1w",
+        dateFormat: 'yy-mm-dd',
+        changeMonth: true,
+        numberOfMonths: 2,
+        onClose: function( selectedDate ) {
+          $( "#fr" ).datepicker( "option", "maxDate", selectedDate );
+        }
+      });
+  }
+
+
     $(document).ready(function(){
 
+      daterange();
       
-      $('#fr').on('change', function(){
+      $('#cat1').on('change', function(){
         var success = false;
         var that = $(this);
 
-        $('#to option').each(function(){
+        $('#cat2 option').each(function(){
           //console.log(that.val()+'=='+$(this).val());
           if(that.val()==$(this).val()){
             //console.log('true');
-            $('#to').selectpicker('val',$(this).val());
+            $('#cat2').selectpicker('val',$(this).val());
             success = true;
           } else {
            // console.log('false');
@@ -336,24 +400,24 @@ $datas = summaryReport($items, 'catname');
             }
           }
         });
-        $('#to').selectpicker('render');
+        $('#cat2').selectpicker('render');
       })
 
       $('#all').on('click', function(){
         console.log($(this).is(':checked'));
 
         if($(this).is(':checked')){
-          $('#fr').prop('disabled', true).next('div').children('.btn').css('cursor', 'not-allowed').css('background-color', '#e6e6e6');
-          $('#fr').selectpicker('val', $('#to option:first-child').val());
-          $('#to').prop('disabled', true).next('div').children('.btn').css('cursor', 'not-allowed').css('background-color', '#e6e6e6');
-          $('#to').selectpicker('val', $('#to option:last-child').val());
-          $('#fr').selectpicker('render');
-          $('#to').selectpicker('render');
+          $('#cat1').prop('disabled', true).next('div').children('.btn').css('cursor', 'not-allowed').css('background-color', '#e6e6e6');
+          $('#cat1').selectpicker('val', $('#cat2 option:first-child').val());
+          $('#cat2').prop('disabled', true).next('div').children('.btn').css('cursor', 'not-allowed').css('background-color', '#e6e6e6');
+          $('#cat2').selectpicker('val', $('#cat2 option:last-child').val());
+          $('#cat1').selectpicker('render');
+          $('#cat2').selectpicker('render');
         } else {
-          $('#fr').prop('disabled', false).next('div').children('.btn').css('cursor', 'pointer').css('background-color', '#fff');
-          $('#to').prop('disabled', false).next('div').children('.btn').css('cursor', 'pointer').css('background-color', '#fff');
-          $('#fr').selectpicker('render');
-          $('#to').selectpicker('render');
+          $('#cat1').prop('disabled', false).next('div').children('.btn').css('cursor', 'pointer').css('background-color', '#fff');
+          $('#cat2').prop('disabled', false).next('div').children('.btn').css('cursor', 'pointer').css('background-color', '#fff');
+          $('#cat1').selectpicker('render');
+          $('#cat2').selectpicker('render');
         }
 
       });

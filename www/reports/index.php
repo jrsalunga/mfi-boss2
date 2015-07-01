@@ -76,6 +76,9 @@ require_once('../../lib/initialize.php');
             <a href="/reports/inventory-status">Inventory Status</a>
           </li>
           <li>
+               <a href="/reports/inventory-movement">Inventory Movement</a>
+              </li>
+          <li>
             <a href="/reports/stock-receipts">Stock Receipts Summary</a>
           </li>
           <li>
