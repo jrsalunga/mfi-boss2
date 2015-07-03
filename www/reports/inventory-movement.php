@@ -262,23 +262,24 @@ $datas = itemByCategoryByDateSummary($items, 'id');
               
               <div class="col-md-1">
                 <a id="collapse-dm" class="btn btn-default collapsed" data-toggle="collapse" href="#collapse<?=$ctr?>" aria-expanded="false" aria-controls="collapseDM">
-                  <span class="glyphicon glyphicon-folder-close"></span>
+                  <span class="glyphicon glyphicon-menu-hamburger"></span>
                 </a>
               </div>
-              <div class="col-md-2 text-right">Beginning Balance: <b><?=number_format($value['begbal'],0)?></b></div>
-              <div class="col-md-3 text-right">In: <b><?=number_format($value['rcp'],0)?></b></div>
-              <div class="col-md-3 text-right">Out: <b><?=number_format(abs($value['isd']),0)?></b></div>
+              <div class="col-md-3 text-right">Beginning Balance: <b><?=number_format($value['begbal'],0)?></b></div>
+              <div class="col-md-2 text-right">In: <b><?=number_format($value['rcp'],0)?></b></div>
+              <div class="col-md-3 text-right">Out: <b><?=number_format($value['isd'],0)?></b></div>
               <div class="col-md-3 text-right">Ending Balance: <b><?=number_format($value['endbal'],0)?></b></div>
           
           <div class="collapse" id="collapse<?=$ctr?>">
           <table class="table table-striped">
           <thead>
             <tr>
-              <th class="hidden-sm hidden-xs">Code <div>&nbsp;&nbsp;</div></th>
-              <th>Post Date <div>&nbsp;&nbsp;</div></th>
-              <th class="text-right">Quantity <div>&nbsp;&nbsp;</div></th>
-              <th class="text-right">Previous Bal <div>&nbsp;&nbsp;</div></th>       
-              <th class="text-right">Current Bal<div>&nbsp;&nbsp;</div></th>
+              <th>Txn Refno</th>
+              <th>Transaction</th>
+              <th>Post Date</th>
+              <th class="text-right">Quantity</th>
+              <th class="text-right">Previous Bal</th>       
+              <th class="text-right">Current Balance</th>
             </tr>
             
           </thead>
@@ -291,8 +292,23 @@ $datas = itemByCategoryByDateSummary($items, 'id');
               //echo $database->last_query;
 
               foreach ($value['rs'] as $item) {
+                
+                if($item->txncode=="RCP"){
+                  $rcphdr = vRcphdr::find_by_field('refno', $item->txnrefno);
+                  $href =  "/reports/print-stock-receipts/".$rcphdr->id;
+                } else if($item->txncode=='ISD'){
+                  $isdhdr = vIsdhdr::find_by_field('refno', $item->txnrefno);
+                  $href =  "/reports/print-direct-issuance/".$isdhdr->id;
+                 } else if($item->txncode=='ISS'){
+                  $isshdr = vIsshdr::find_by_field('refno', $item->txnrefno);
+                  $href =  "/reports/print-indirect-issuance/".$isshdr->id;
+                } else {
+                  $href = "/inventory-movement";
+                }
+
                 echo '<tr>';
-                echo '<td class="hidden-sm hidden-xs">'. $item->txncode .'</td>';
+                echo '<td><a href="'.$href.'" target="_blank">'. $item->txnrefno .'</a></td>';
+                echo '<td>'. $item->txncode .'</td>';
                 echo '<td>'. short_date($item->postdate) .'</td>';
                 echo '<td class="text-right">'. number_format($item->qty, 0) .'</td>';
                 echo '<td class="text-right">'. number_format($item->prevbal, 0) .'</td>';
@@ -429,12 +445,7 @@ $datas = itemByCategoryByDateSummary($items, 'id');
 
 
 
-        $('.table').DataTable({
-          "order": [[ 1, "asc" ]],
-          "paging": false,
-          "searching": false,
-          "info": false
-        });
+        
 
 
       } );

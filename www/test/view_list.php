@@ -142,3 +142,17 @@ LEFT JOIN rcphdr b
 ON a.rcphdrid = b.id
 LEFT JOIN item c
 ON c.id = a.itemid";
+
+$vIsddtl = "SELECT c.code AS itemcode, c.descriptor AS item, a.*
+FROM isddtl a
+LEFT JOIN isdhdr b
+ON a.isdhdrid = b.id
+LEFT JOIN item c
+ON c.id = a.itemid";
+
+$vIssdtl = "SELECT c.code AS itemcode, c.descriptor AS item, a.*
+FROM issdtl a
+LEFT JOIN isshdr b
+ON a.isshdrid = b.id
+LEFT JOIN item c
+ON c.id = a.itemid";

@@ -3,10 +3,10 @@
 // probably smart to require it before we start.
 require_once(ROOT.DS.'classes'.DS.'database.php');
 
-class vRcphdr extends DatabaseObject{
+class vIsdhdr extends DatabaseObject{
 	
-	protected static $table_name="rcphdr";
-	protected static $db_fields = array('id', 'refno' ,'date' ,'branchid' ,'supplierid' ,'supprefno' ,'porefno' ,'terms' ,'totqty' ,'totamount' ,'notes' ,'posted' ,'cancelled' ,'printctr' ,'totline');
+	protected static $table_name="isdhdr";
+	protected static $db_fields = array('id', 'refno' ,'date' ,'branchid' ,'projectid' ,'operatorid' ,'totqty' ,'notes' ,'posted' ,'cancelled' ,'printctr' ,'totline');
 	
 	/*
 	* Database related fields
@@ -15,12 +15,9 @@ class vRcphdr extends DatabaseObject{
 	public $refno;
 	public $date;
 	public $branchid;
-	public $supplierid;
-	public $supprefno;
-	public $porefno;
-	public $terms;
+	public $projectid;
+	public $operatorid;
 	public $totqty;
-	public $totamount;
 	public $notes;
 	public $posted;
 	public $cancelled;
@@ -29,7 +26,7 @@ class vRcphdr extends DatabaseObject{
 	
 	
 	
-
+	
 	
 	
 

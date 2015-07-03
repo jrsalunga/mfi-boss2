@@ -74,6 +74,7 @@ require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.operation.php');
 require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.itemcat.php');
 require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.bom.php');
 require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.branch.php');
+require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.operator.php');
 
 require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.view.apvhdr.php');
 require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.view.apvdtl.php');
@@ -84,6 +85,11 @@ require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.view.item.php');
 require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.view.cvapvdtl.php');
 require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.view.rcphdr.php');
 require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.view.rcpdtl.php');
+require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.view.isdhdr.php');
+require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.view.isddtl.php');
+require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.view.isshdr.php');
+require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.view.issdtl.php');
+
 
 require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.vproject.php');
 

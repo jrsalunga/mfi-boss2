@@ -10,7 +10,7 @@ class vItem extends DatabaseObject{
 									'onhand' ,'minlevel' ,'maxlevel' ,'reorderqty' , 'avecost', 'value', 
 									'catcode' ,'catname', 'item' ,'totqty', 'porefno', 'operatorcode',
 									'operator', 'projectcode', 'project', 'notes', 'rcphdrid', 'refno',
-									'txncode', 'postdate', 'qty', 'prevbal', 'currbal'
+									'txnrefno','txncode', 'postdate', 'qty', 'prevbal', 'currbal'
 									);
 	
 	/*
@@ -45,6 +45,7 @@ class vItem extends DatabaseObject{
 	public $refno;
 
 	public $txncode;
+	public $txnrefno;
 	public $postdate;
 	public $qty;
 	public $prevbal;
@@ -118,7 +119,7 @@ class vItem extends DatabaseObject{
 
 
 	public static function findByCategoryByDate($cat1=NULL, $cat2=NULL, $fr=NULL, $to=NULL){
-		$sql = 'select a.itemid as id, a.postdate, a.txncode, a.qty, a.prevbal, a.currbal, b.code as itemcode, ';
+		$sql = 'select a.itemid as id, a.postdate, a.txnrefno, a.txncode, a.qty, a.prevbal, a.currbal, b.code as itemcode, ';
 		$sql .= 'b.descriptor as itemname, b.uom, c.code as catcode, c.descriptor as catname, b.id ';
 		$sql .= 'from stockcard a ';
 		$sql .= 'join item b on a.itemid=b.id ';

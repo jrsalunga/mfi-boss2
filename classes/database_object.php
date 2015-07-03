@@ -40,6 +40,13 @@ class DatabaseObject {
 			return !empty($result_array) ? array_shift($result_array) : false;
 		}
   	}
+
+  	public static function find_by_field($field=0,$val=0) {
+		
+		$result_array = static::find_by_sql("SELECT * FROM ".static::$table_name." WHERE {$field}='{$val}' LIMIT 1");
+		return !empty($result_array) ? array_shift($result_array) : false;
+		
+  	}
 	
 	public static function find_all_by_field_id($field=0,$id=0) {
 		if(!is_uuid($id) && $id==NULL) {
