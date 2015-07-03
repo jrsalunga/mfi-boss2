@@ -130,6 +130,23 @@ class vItem extends DatabaseObject{
 
 		return parent::find_by_sql($sql);
 	}
+
+	public static function ProjectDirectMaterials($projectid=NULL) {
+		if(uuid_isset($projectid)){
+			$sql = 'SELECT b.refno, b.date AS postdate, e.descriptor AS type, c.descriptor AS item, a.qty, c.uom, d.descriptor AS operator, a.isdhdrid AS id ';
+			$sql .= 'FROM isddtl a ';
+			$sql .= 'LEFT JOIN isdhdr b ON a.isdhdrid = b.id ';
+			$sql .= 'LEFT JOIN item c ON a.itemid = c.id ';
+			$sql .= 'LEFT JOIN operator d ON b.operatorid = d.id ';
+			$sql .= 'LEFT JOIN itemcat e ON c.itemcatid = e.id ';
+			$sql .= "WHERE b.projectid = '".$projectid."' ";
+			$sql .= 'ORDER BY 2, 3, 4 '; 
+
+			return parent::find_by_sql($sql);
+		} else {
+			return FALSE;
+		}
+	}
 	
 }
 

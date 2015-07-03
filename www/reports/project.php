@@ -2,7 +2,8 @@
 require_once('../../lib/initialize.php');
 !$session->is_logged_in() ? redirect_to("/login"): "";
 $cleanUrl->setParts('projectid', 'bomid');
-
+//error_reporting(E_ALL);
+//ini_set('display_errors','On');
 /*
 if(!empty($bomid)) {
 
@@ -91,7 +92,7 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
     <title>Modular Fusion - Project</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-3.3.5.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="/css/dashboard.css" rel="stylesheet">
@@ -196,7 +197,13 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
 
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title">Direct Materials</h3>
+              <h3 class="panel-title">Direct Materials
+                <div class="btn-group btn-group-sm pull-right" role="group">
+                  <button type="button" class="btn btn-default" disabled><span class="pull-right glyphicon glyphicon-copy"></button>
+                  <a data-toggle="tooltip" data-placement="top" title="view Direct Materials Issueance" type="button" class="btn btn-default" href="/reports/project-dm/<?=$project->id?>"><span class="pull-right glyphicon glyphicon-list-alt"></span></span></a>
+                 
+                </div>
+              </h3>
             </div>
             <div class="panel-body">
 
@@ -374,7 +381,7 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
     <script type="text/javascript">
     $(document).ready(function(){
 
-      
+      $("[data-toggle='tooltip']").tooltip();
 
       $('.collapse').on('shown.bs.collapse', function () {
         console.log($(this).parent('.panel').children('.panel-body').find('.glyphicon'));

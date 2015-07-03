@@ -2,61 +2,17 @@
 require_once('../../lib/initialize.php');
 !$session->is_logged_in() ? redirect_to("/login"): "";
 $cleanUrl->setParts('projectid');
-
+error_reporting(E_ALL);
+ini_set('display_errors','On');
 $project = Project::find_by_id($projectid);
 
+$items = vItem::ProjectDirectMaterials($project->id);
 
-$boms = UIBom::getBom($project->id);
-$gs = groupSummary($boms, 'itemcode', array('qty', 'qtyused', 'totamt', 'bomcost'), true);
-
-
-$apvdtls = vApvdtl::find_all_by_field_id('project', $project->id);
-$gs2 = groupSummary($apvdtls, 'account', array('amount'), true);
+$itemss = UIBom::getBom($project->id);
+$gs = groupSummary($itemss, 'itemcode', array('qty', 'qtyused', 'totamt', 'itemcost'), true);
 
 
 
-
-$prodhdrs = Prodhdr::find_all_by_field_id('project', $project->id);
-
-
-function summarizeProdhdr($datas, $uf){
-    //echo $key.' - '.$value.'<br>';
-    //echo 'summarize<br>';
-    $arr = array();
-    $arr['rs'] = array();
-    $arr['g_cost'] = 0;
-    $arr['g_hrs'] = 0;
-    $arr['g_rec'] = 0;
-
-    foreach ($datas as $data) {
-       
-        $tstart = date_create($data->date.' '.$data->tstart);
-        $tstop = date_create($data->date.' '.$data->tstop);
-        $interval = date_diff($tstop, $tstart);
-        $tothrs =  $interval->format("%h");
-        $data->cost = ($tothrs*500)/8;
-
-        if(array_key_exists($data->{$uf}, $arr['rs'])) {
-          $arr['rs'][$data->{$uf}]['tothrs'] += $tothrs;
-          $arr['rs'][$data->{$uf}]['totrec'] += 1;
-        } else {
-          $arr['rs'][$data->{$uf}]['rs'] = array(); 
-
-          $arr['rs'][$data->{$uf}]['tothrs'] = $tothrs;
-          $arr['rs'][$data->{$uf}]['totrec'] = 1;   
-        }
-
-        $arr['rs'][$data->{$uf}]['operation'] = Operation::row($data->opnid, 1);
-        $arr['rs'][$data->{$uf}]['totcost'] += $data->cost;
-        $arr['g_cost'] += $data->cost;
-        $arr['g_hrs'] += $tothrs;
-        $arr['g_rec'] += $arr['rs'][$data->{$uf}]['totrec'];
-        $data->hrs = $tothrs;
-        array_push($arr['rs'][$data->{$uf}]['rs'], $data);
-    }
-
-    return $arr;
-}
 
 //$gs3 = summarizeProdhdr($prodhdrs, 'opnid');
 ////global $database;
@@ -81,7 +37,7 @@ function summarizeProdhdr($datas, $uf){
     <title>Modular Fusion - Project DM</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap-3.3.5.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="/css/dashboard.css" rel="stylesheet">
@@ -163,7 +119,7 @@ function summarizeProdhdr($datas, $uf){
           
           <nav>
             <ul class="pager">
-              <li class="previous"><a href="/reports/bom-variances"><span class="glyphicon glyphicon-chevron-left"></span> Back</a></li>
+              <li class="previous"><a href="/reports/item-variances"><span class="glyphicon glyphicon-chevron-left"></span> Back</a></li>
               <!--
               <li class="next"><a href="/project-print/<?=$project->id?>" target="_blank"><span class="glyphicon glyphicon-print"></span> Print Preview</a></li>
               -->
@@ -186,18 +142,30 @@ function summarizeProdhdr($datas, $uf){
 
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title">Direct Materials</h3>
+              <h3 class="panel-title">Direct Materials Issuance 
+
+                <div class="btn-group btn-group-sm pull-right" role="group">
+                <a data-toggle="tooltip" data-placement="top" title="back to BOM List" type="button" class="btn btn-default" href="/reports/project/<?=$project->id?>"><span class="pull-right glyphicon glyphicon-copy"></span></span></a>
+                <button type="button" class="btn btn-default" disabled><span class="pull-right glyphicon glyphicon-list-alt"></button>
+              </div>
+
+               
+                
+                
+              </h3>
+
+
             </div>
             <div class="panel-body">
 
 
               <div class="col-md-1">
                 <a id="collapse-dm" class="btn btn-default collapsed" data-toggle="collapse" href="#collapseDM" aria-expanded="false" aria-controls="collapseDM">
-                  <span class="glyphicon glyphicon-folder-close"></span>
+                  <span class="glyphicon glyphicon-folder-open"></span>
                 </a>
               </div>
-              <div class="col-md-2 text-right">BoM Qty: <b><?=number_format($gs['gt_qty'],0)?></b></div>
-              <div class="col-md-3 text-right">BoM Amount: <b><?=number_format($gs['gt_bomcost'],2)?></b></div>
+              <div class="col-md-2 text-right">item Qty: <b><?=number_format($gs['gt_qty'],0)?></b></div>
+              <div class="col-md-3 text-right">item Amount: <b><?=number_format($gs['gt_itemcost'],2)?></b></div>
               <div class="col-md-3 text-right">Actual Qty: <b><?=number_format($gs['gt_qtyused'],0)?></b></div>
               <div class="col-md-3 text-right">Actual Amount: <b><?=number_format($gs['gt_totamt'],2)?></b></div>
            
@@ -206,43 +174,38 @@ function summarizeProdhdr($datas, $uf){
 
             
 
-            <div class="collapse" id="collapseDM">
+            <div class="collapse in" id="collapseDM">
             <table class="table">
               <thead>
               </thead>
                 <tr>
-                  <td class="text-center">Category</td>
+                  <td class="text-center">Ref No</td>
                   <!--<td class="text-center">Code</td>-->
-                  <td class="text-center">Item</td>
+                  <td class="text-center">Date</td>
                   <!--
                   <td class="text-center">UoM</td>
                   -->
-                  <td class="text-center">Ave Cost</td>
-                  <td class="text-center">BoM</td>
-                  <td class="text-center">BoM Cost</td>
-                  <td class="text-center">Actual</td>
-                  <td class="text-center">Actual Cost</td>
+                  <td class="text-center">Category</td>
+                  <td class="text-center">Item</td>
+                  <td class="text-center">Qty</td>
+                  <td class="text-center">UoM</td>
+                  
+                  <td class="text-center">Operator</td>
                 </tr>
               <tbody>
               <?php
-                foreach ($boms as $bom) {
-                  if($bom->qty > $bom->qtyused)
-                    $c = 'info';
-                  else if($bom->qty < $bom->qtyused)
-                    $c = 'warning';
-                  else 
-                    $c = '';
+                foreach ($items as $item) {
+                  
 
-                  echo '<tr class="'.$c.'">';
-                  //echo '<td><a href="'.$_SERVER['REQUEST_URI'].'/'. $bom->id .'">'. $bom->catname .'</a></td>';
-                  echo '<td>'. $bom->catname .'</td>';
-                  echo '<td id="'.$bom->itemid.'">'. $bom->itemname .'</td>';
-                  //echo '<td>'. $bom->uom .'</td>';
-                  echo '<td class="text-right">'. number_format($bom->avecost, 2) .'</td>';
-                  echo '<td class="text-right">'. number_format($bom->qty, 0) .'</td>';
-                  echo '<td class="text-right">'. number_format($bom->bomcost, 2) .'</td>';
-                  echo '<td class="text-right">'. number_format($bom->qtyused, 0) .'</td>';
-                  echo '<td class="text-right">'. number_format($bom->totamt, 2) .'</td>';
+                  echo '<tr>';
+                  //echo '<td><a href="'.$_SERVER['REQUEST_URI'].'/'. $item->id .'">'. $item->catname .'</a></td>';
+                  echo '<td><a href="/reports/print-direct-issuance/'.$item->id.'" target="_blank">'. $item->refno .'</a></td>';
+                  echo '<td>'. short_date($item->postdate) .'</td>';
+                  echo '<td>'. $item->type .'</td>';
+                  echo '<td>'. $item->item .'</td>';
+                  echo '<td class="text-right">'. number_format($item->qty, 0) .'</td>';
+                  echo '<td>'. $item->uom .'</td>';
+                  echo '<td>'. $item->operator .'</td>';
                   echo '</tr>';
                 }
               ?>
@@ -277,6 +240,10 @@ function summarizeProdhdr($datas, $uf){
 
     <script type="text/javascript">
     $(document).ready(function(){
+
+
+      $("[data-toggle='tooltip']").tooltip();
+   
 
       
 
