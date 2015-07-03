@@ -1426,6 +1426,7 @@ function authUserLogin() {
     #if($usr == 'admin' && $pwd =='password') {
 
         $session->login($found_user);
+        log_action('login', $found_user->code);
 
         //$_SESSION['cid'] = '001';
         $session->set_fullname($found_user->descriptor);

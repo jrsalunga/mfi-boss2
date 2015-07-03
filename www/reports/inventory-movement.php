@@ -278,7 +278,7 @@ $datas = itemByCategoryByDateSummary($items, 'id');
               <th>Transaction</th>
               <th>Post Date</th>
               <th class="text-right">Quantity</th>
-              <th class="text-right">Previous Bal</th>       
+              <th class="text-right">Previous Balance</th>       
               <th class="text-right">Current Balance</th>
             </tr>
             
