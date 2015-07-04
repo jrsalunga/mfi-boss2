@@ -117,6 +117,7 @@ $(document).ready(function(){
 <div id="page-wrap">
 	<div class="isposted" style="visibility: <?=$isdhdr->posted==1?"visible":"hidden"?>">
     	<h1>Posted</h1>
+        <p><?=short_date(Stockcard::field_row('txnrefno', $isdhdr->refno, 2))?></p>
     </div>
     <div class="iscancelled" style="visibility: <?=$isdhdr->cancelled==1?"visible":"hidden"?>">
     	<h1>Cancelled</h1>

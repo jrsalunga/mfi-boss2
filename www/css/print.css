@@ -200,6 +200,12 @@ table td, table th {
 	color: #f0ad4e;
 }
 
+.isposted > p {
+  font-size: 20px;
+  color: red;
+  text-align: center;
+}
+
 
 
 

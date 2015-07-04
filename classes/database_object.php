@@ -98,6 +98,15 @@ class DatabaseObject {
 	
 		return !empty($row) ? $row["$col"] : false;	
 	}
+
+	public static function field_row($field, $val, $col) {
+		global $database;
+		$sql = "SELECT * FROM ".static::$table_name." WHERE ".$field." = '".$val."' LIMIT 1";
+		$result_set = $database->query($sql);
+		$row = $database->fetch_array($result_set);
+	
+		return !empty($row) ? $row["$col"] : false;	
+	}
 	
 	public static function getLastNumber(){
 		global $database;

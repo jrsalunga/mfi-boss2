@@ -150,7 +150,7 @@ $datas = summaryReport($items, 'catname');
         </ul>        
       </div>
       <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main inventory-status">
-        <h4>Status of Inventory</h4>
+        <h4>Status of Inventory <small><i>( based on posting date )</i></small></h4>
 
         <nav class="navbar navbar-default">
         
