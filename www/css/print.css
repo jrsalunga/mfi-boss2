@@ -201,6 +201,7 @@ table td, table th {
 }
 
 .isposted > p {
+  opacity: 1.0;
   font-size: 20px;
   color: red;
   text-align: center;

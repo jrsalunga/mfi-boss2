@@ -125,7 +125,7 @@ class vItem extends DatabaseObject{
 		$sql .= 'join item b on a.itemid=b.id ';
 		$sql .= 'left join itemcat c on b.itemcatid=c.id ';
 		$sql .= "where c.descriptor BETWEEN '".$cat1."' and '".$cat2."' ";
-		$sql .= "and a.postdate between '".$fr."' and '".$to."' ";
+		$sql .= "and a.postdate between '".$fr." 00:00:00' and '".$to." 23:59:59' ";
 		$sql .= 'order by c.descriptor, b.descriptor, a.postdate ';
 
 		return parent::find_by_sql($sql);
