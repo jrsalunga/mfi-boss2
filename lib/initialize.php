@@ -76,6 +76,8 @@ require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.bom.php');
 require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.branch.php');
 require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.operator.php');
 require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.stockcard.php');
+require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.apledger.php');
+
 
 require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.view.apvhdr.php');
 require_once(ROOT.DS.'classes'.DS.'model'.DS.'class.view.apvdtl.php');
