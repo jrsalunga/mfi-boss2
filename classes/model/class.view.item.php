@@ -69,7 +69,7 @@ class vItem extends DatabaseObject{
 
 
 	public static function findByCategory($cat1=NULL, $cat2=NULL){
-		$sql = 'select b.code as catcode, b.descriptor as catname, a.code, a.descriptor, a.type, a.uom, a.onhand, a.avecost, a.onhand*a.avecost as value ';
+		$sql = 'select b.code as catcode, b.descriptor as catname, a.code, a.descriptor, a.type, a.uom, a.onhand, a.avecost, a.onhand*a.avecost as value, a.id ';
 		$sql .= 'from item a left join itemcat b on a.itemcatid=b.id ';
 		$sql .= "where b.descriptor>='". $cat1 ."' and b.descriptor<='". $cat2."' ";
 		$sql .= 'order by catname, a.descriptor';

@@ -159,7 +159,7 @@ $datas = summaryReport($items, 'catname');
         
         <form class="navbar-form form-inline pull-right">
         <div class="form-group">
-          <label for="fr">From item category </label>
+          <label for="fr">Category </label>
             <select name="fr"  id="fr" class="selectpicker show-tick">
             <?php
                 foreach ($itemcats as $itemcat) {
@@ -171,7 +171,7 @@ $datas = summaryReport($items, 'catname');
             </select>
           </div>
           <div class="form-group">
-            <label for="to">to</label>
+            <label for="to"></label>
             <select name="to" id="to" class="selectpicker show-tick">
             <?php
                 $flag = false;
@@ -182,22 +182,6 @@ $datas = summaryReport($items, 'catname');
                     echo '<option>'.$itemcat->descriptor.'</option>';
                     $flag = true;
                   }
-
-                  /*
-                  if(isset($_GET['to']) && $_GET['fr']!=$itemcat->descriptor){
-                    if($flag && $_GET['fr']!=$itemcat->descriptor){
-                       echo '<option disabled>'.$itemcat->descriptor.'</option>';
-                       $flag = true;
-                     } else {
-                      echo '<option>'.$itemcat->descriptor.'</option>';
-                     }
-                   
-                    
-                  } else {
-                    echo '<option>'.$itemcat->descriptor.'</option>';
-                  }
-                  */
-                  
                 }
             ?>
             </select>
@@ -251,7 +235,7 @@ $datas = summaryReport($items, 'catname');
               foreach ($value['rs'] as $item) {
                 echo '<tr>';
                 echo '<td class="hidden-sm hidden-xs">'. $item->code .'</td>';
-                echo '<td>'. $item->descriptor .'</td>';
+                echo '<td><a href="/reports/item-inventory?itemid='.$item->id.'" target="_blank">'. $item->descriptor .'</a></td>';
                 echo '<td class="text-right">'. number_format($item->avecost, 2) .'</td>';
                 echo '<td class="text-right" title="'. $item->onhand .' '. $item->uom .'">'. $item->onhand .'</td>';
                 echo '<td class="text-right">'. number_format($item->value, 2) .'</td>';

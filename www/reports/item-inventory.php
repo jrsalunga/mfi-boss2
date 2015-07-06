@@ -133,9 +133,13 @@ if(!empty($_GET['itemid']) || (is_uuid($_GET['itemid'])))
             
           </div>
           <div class="form-group pull-right">
+            <div class="input-group">
               <input style="width: 400px;" type="text" class="form-control" id="search-item" placeholder="Search item..." value="<?=isset($item->descriptor)?$item->descriptor:"";?>">
               <input type="hidden" name="itemid" id="itemid" value="<?=$item->id?>"> 
-              <button type="submit" class="btn btn-primary">Search</button>
+              <div class="input-group-btn">
+                <button type="submit" class="btn btn-primary">Search</button>
+              </div>
+            </div>
           </div> 
 
           
