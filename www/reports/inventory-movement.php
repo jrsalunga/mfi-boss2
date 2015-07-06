@@ -155,6 +155,9 @@ $datas = itemByCategoryByDateSummary($items, 'id');
           <li class="active">
                 <a href="/reports/inventory-movement">Inventory Movement</a>
               </li>
+              <li>
+                <a href="/reports/item-inventory">Stockcard</a>
+              </li>
           <li>
             <a href="/reports/stock-receipts">Stock Receipts Summary</a>
           </li>
@@ -174,8 +177,8 @@ $datas = itemByCategoryByDateSummary($items, 'id');
 
         <nav class="navbar navbar-default">
         
-        <form class="navbar-form form-inline pull-right">
-          
+        <form class="navbar-form form-inline">
+          <div class="form-group">
             <div class="form-group">
                 <label class="sr-only" for="fr">From:</label>
                 <input type="text" class="form-control" id="fr" name="fr" placeholder="YYYY-MM-DD" value="<?=$dr->fr?>">
@@ -184,57 +187,40 @@ $datas = itemByCategoryByDateSummary($items, 'id');
                 <label class="sr-only" for="to">To:</label>
                 <input type="text" class="form-control" id="to" name="to" placeholder="YYYY-MM-DD"  value="<?=$dr->to?>">
             </div>
-
-            
-          
-        <div class="form-group">
-          <label for="cat1">Category </label>
-            <select name="cat1"  id="cat1" class="selectpicker show-tick">
-            <?php
-                foreach ($itemcats as $itemcat) {
-                  echo '<option ';
-                  echo $_GET['cat1']==$itemcat->descriptor ? 'selected':'';
-                  echo '>'.$itemcat->descriptor.'</option>';
-                }
-            ?>
-            </select>
           </div>
-          <div class="form-group">
-            <label for="cat2"></label>
-            <select name="cat2" id="cat2" class="selectpicker show-tick">
-            <?php
-                $flag = false;
-                foreach ($itemcats as $itemcat) {
-                  if(!$flag && isset($_GET['cat2']) && $_GET['cat2']!=$itemcat->descriptor){
-                    echo '<option disabled>'.$itemcat->descriptor.'</option>';
-                  } else {
-                    echo '<option>'.$itemcat->descriptor.'</option>';
-                    $flag = true;
+          <div class="form-group pull-right">
+            <div class="form-group">
+              <label for="cat1">Category </label>
+              <select name="cat1"  id="cat1" class="selectpicker show-tick">
+              <?php
+                  foreach ($itemcats as $itemcat) {
+                    echo '<option ';
+                    echo $_GET['cat1']==$itemcat->descriptor ? 'selected':'';
+                    echo '>'.$itemcat->descriptor.'</option>';
                   }
-
-                  /*
-                  if(isset($_GET['to']) && $_GET['fr']!=$itemcat->descriptor){
-                    if($flag && $_GET['fr']!=$itemcat->descriptor){
-                       echo '<option disabled>'.$itemcat->descriptor.'</option>';
-                       $flag = true;
-                     } else {
+              ?>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="cat2"></label>
+              <select name="cat2" id="cat2" class="selectpicker show-tick">
+              <?php
+                  $flag = false;
+                  foreach ($itemcats as $itemcat) {
+                    if(!$flag && isset($_GET['cat2']) && $_GET['cat2']!=$itemcat->descriptor){
+                      echo '<option disabled>'.$itemcat->descriptor.'</option>';
+                    } else {
                       echo '<option>'.$itemcat->descriptor.'</option>';
-                     }
-                   
-                    
-                  } else {
-                    echo '<option>'.$itemcat->descriptor.'</option>';
-                  }
-                  */
-                  
+                      $flag = true;
+                    }
                 }
-            ?>
-            </select>
-          </div>
-          <label class="checkbox-inline">
+              ?>
+              </select>
+            </div>
+            <label class="checkbox-inline">
             <input type="checkbox" name="all" id="all"> All
-          </label>
-          <button type="submit" class="btn btn-primary">Search</button>
+            </label>
+            <button type="submit" class="btn btn-primary">Search</button>
         </form>  
         
       </nav>
@@ -269,7 +255,7 @@ $datas = itemByCategoryByDateSummary($items, 'id');
               <div class="col-md-2 text-right">In: <b><?=number_format($value['rcp'],0)?></b></div>
               <div class="col-md-3 text-right">Out: <b><?=number_format($value['isd'],0)?></b></div>
               <div class="col-md-3 text-right">Ending Balance: <b><?=number_format($value['endbal'],0)?></b></div>
-          
+          </div>
           <div class="collapse" id="collapse<?=$ctr?>">
           <table class="table table-striped">
           <thead>
@@ -319,7 +305,7 @@ $datas = itemByCategoryByDateSummary($items, 'id');
           </tbody>
           </table>
           
-          </div>  <!-- end collapse --> 
+         
 
         <?php
               echo '</div>';// end .collapse

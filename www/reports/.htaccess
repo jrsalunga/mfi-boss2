@@ -26,3 +26,4 @@ RewriteRule ^check-print(\/.*)$ check-print.php
 RewriteRule ^accounts-payable-print(\/.*)*$ accounts-payable-print.php
 RewriteRule ^print-direct-issuance(\/.*)*$ print-direct-issuance.php
 RewriteRule ^print-indirect-issuance(\/.*)*$ print-indirect-issuance.php
+RewriteRule ^item-inventory(\.*)*$ item-inventory.php

@@ -1274,7 +1274,8 @@ function datatables2($cTable) {
 function searchTable($table) {
 
     $app = \Slim\Slim::getInstance();
-    $database = MySQLDatabase::getInstance();
+    //$database = MySQLDatabase::getInstance();
+    global $database;
 
     $request = $app->request();
 

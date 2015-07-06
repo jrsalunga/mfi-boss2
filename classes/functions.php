@@ -340,6 +340,10 @@ function is_uuid($uuid=0) {
 	return preg_match('/^[A-Fa-f0-9]{32}+$/',$uuid) ? $uuid : false;
 }
 
+function is_uid($uuid=0) {
+	return preg_match('/^[A-Fa-f0-9]{32}+$/',$uuid) ? true : false;
+}
+
 function id_isset($val) {
 	return (isset($val) && !empty($val) && is_uuid($val)) ? $val : false;	
 }
