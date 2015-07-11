@@ -203,7 +203,7 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
               <h3 class="panel-title">Direct Materials
                 <div class="btn-group btn-group-sm pull-right" role="group">
                   <button type="button" class="btn btn-default" disabled><span class="pull-right glyphicon glyphicon-copy"></button>
-                  <a data-toggle="tooltip" data-placement="top" title="view Direct Materials Issueance" type="button" class="btn btn-default" href="/reports/project-dm/<?=$project->id?>"><span class="pull-right glyphicon glyphicon-list-alt"></span></span></a>
+                  <a data-toggle="tooltip" data-placement="top" title="view Direct Materials Issuance" type="button" class="btn btn-default" href="/reports/project-dm/<?=$project->id?>"><span class="pull-right glyphicon glyphicon-list-alt"></span></span></a>
                  
                 </div>
               </h3>

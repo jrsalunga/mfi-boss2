@@ -130,7 +130,7 @@ $gs = groupSummary($itemss, 'itemcode', array('qty', 'qtyused', 'totamt', 'bomco
           </nav>
 
           <div class="page-header">
-            <h3><?=$project->descriptor?></h3>
+            <h3><?=$project->descriptor?> <small title="Sales Order No."><?=$project->code?></small></h3>
             <div class="col-md-8">
               <span class="glyphicon glyphicon-map-marker"></span> 
               <?php

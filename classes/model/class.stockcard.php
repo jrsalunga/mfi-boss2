@@ -29,11 +29,16 @@ class Stockcard extends DatabaseObject{
 
 
 
-	public static function find_all_by_field_id($field=0,$id=0) {
+	public static function find_all_by_field_id($field=0, $id=0, $fr, $to) {
 		if(!is_uuid($id) && $id==NULL) {
 			return false;
 		} else {
-   			$result_array = static::find_by_sql("SELECT * FROM ".static::$table_name." WHERE {$field}id='{$id}' ORDER BY postdate ASC");
+
+			$sql = "SELECT * FROM ".static::$table_name." WHERE {$field}id='{$id}' ";
+			$sql .= "AND txndate between '".$fr." 00:00:00' and '".$to." 23:59:59' ";
+			$sql .= "ORDER BY txndate ASC";
+
+   			$result_array = static::find_by_sql($sql);
 			return !empty($result_array) ? $result_array : false;
 		}
   	}

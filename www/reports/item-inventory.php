@@ -149,7 +149,10 @@ if(!empty($_GET['itemid']) || (is_uuid($_GET['itemid'])))
       <?php
         if(!empty($item)){
 
-        $stockcards = Stockcard::find_all_by_field_id('item', $item->id)
+        $stockcards = Stockcard::find_all_by_field_id('item', $item->id, $dr->fr, $dr->to);
+
+        //global $database;
+        //echo $database->last_query;
       ?>
 
       <div class="panel-group">
@@ -208,7 +211,7 @@ if(!empty($_GET['itemid']) || (is_uuid($_GET['itemid'])))
                       echo '<td>'. $stockcard->txncode .'</td>';
                       echo '<td>'. short_date($stockcard->postdate) .'</td>';
                       echo '<td>'. $opr .'</td>';
-                      echo '<td class="text-right">'. number_format($stockcard->qty, 2) .'</td>';
+                      echo '<td class="text-right">'. number_format($stockcard->qty, 0) .'</td>';
                       echo '<td class="text-right">'. number_format($stockcard->prevbal, 0) .'</td>';
                       echo '<td class="text-right">'. number_format($stockcard->currbal, 0) .'</td>';
                       echo '</tr>';
