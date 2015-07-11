@@ -2,14 +2,14 @@
 require_once('../../lib/initialize.php');
 !$session->is_logged_in() ? redirect_to("/login"): "";
 $cleanUrl->setParts('projectid');
-error_reporting(E_ALL);
-ini_set('display_errors','On');
+//error_reporting(E_ALL);
+//ini_set('display_errors','On');
 $project = Project::find_by_id($projectid);
 
 $items = vItem::ProjectDirectMaterials($project->id);
 
 $itemss = UIBom::getBom($project->id);
-$gs = groupSummary($itemss, 'itemcode', array('qty', 'qtyused', 'totamt', 'itemcost'), true);
+$gs = groupSummary($itemss, 'itemcode', array('qty', 'qtyused', 'totamt', 'bomcost'), true);
 
 
 
@@ -18,7 +18,7 @@ $gs = groupSummary($itemss, 'itemcode', array('qty', 'qtyused', 'totamt', 'itemc
 ////global $database;
 //echo $database->last_query;
 
-//echo json_encode($gs3);
+//echo json_encode($gs);
 //exit;
 
 
@@ -167,8 +167,8 @@ $gs = groupSummary($itemss, 'itemcode', array('qty', 'qtyused', 'totamt', 'itemc
                   <span class="glyphicon glyphicon-folder-open"></span>
                 </a>
               </div>
-              <div class="col-md-2 text-right">item Qty: <b><?=number_format($gs['gt_qty'],0)?></b></div>
-              <div class="col-md-3 text-right">item Amount: <b><?=number_format($gs['gt_itemcost'],2)?></b></div>
+              <div class="col-md-2 text-right">BoM Qty: <b><?=number_format($gs['gt_qty'],0)?></b></div>
+              <div class="col-md-3 text-right">Bom Amount: <b><?=number_format($gs['gt_bomcost'],2)?></b></div>
               <div class="col-md-3 text-right">Actual Qty: <b><?=number_format($gs['gt_qtyused'],0)?></b></div>
               <div class="col-md-3 text-right">Actual Amount: <b><?=number_format($gs['gt_totamt'],2)?></b></div>
            

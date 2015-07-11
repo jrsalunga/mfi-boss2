@@ -185,7 +185,7 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
           </nav>
 
           <div class="page-header">
-            <h3><?=$project->descriptor?></h3>
+            <h3><?=$project->descriptor?> <small title="Sales Order No."><?=$project->code?></small></h3>
             <div class="col-md-8">
               <span class="glyphicon glyphicon-map-marker"></span> 
               <?php
@@ -213,7 +213,7 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
 
               <div class="col-md-1">
                 <a id="collapse-dm" class="btn btn-default collapsed" data-toggle="collapse" href="#collapseDM" aria-expanded="false" aria-controls="collapseDM">
-                  <span class="glyphicon glyphicon-folder-close"></span>
+                  <span class="glyphicon glyphicon-folder-open"></span>
                 </a>
               </div>
               <div class="col-md-2 text-right">BoM Qty: <b><?=number_format($gs['gt_qty'],0)?></b></div>
@@ -226,7 +226,7 @@ $gs3 = summarizeProdhdr($prodhdrs, 'opnid');
 
             
 
-            <div class="collapse" id="collapseDM">
+            <div class="collapse in" id="collapseDM">
             <table class="table">
               <thead>
               </thead>

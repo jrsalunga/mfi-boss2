@@ -275,23 +275,27 @@ if(!empty($_GET['itemid']) || (is_uuid($_GET['itemid'])))
     $("#search-item").autocomplete({
       
       source: function( request, response ) {
-        $.ajax({
-            type: 'GET',
-            url: "/api/search/item",
-            dataType: "json",
-            data: {
-              maxRows: 20,
-              q: request.term
-            },
-            success: function( data ) {
-              response( $.map( data, function( item ) {
-                return {
-                  label: item.code + ' - ' + item.descriptor,
-                  value: item.descriptor,
-                  id: item.id
-                }
-              }));
-            }
+        $.when(
+          $.ajax({
+              type: 'GET',
+              url: "/api/search/item",
+              dataType: "json",
+              data: {
+                maxRows: 20,
+                q: request.term
+              },
+              success: function( data ) {
+                response( $.map( data, function( item ) {
+                  return {
+                    label: item.code + ' - ' + item.descriptor,
+                    value: item.descriptor,
+                    id: item.id
+                  }
+                }));
+              }
+          })
+        ).then(function(data){
+          //console.log(data);
         });
       },
       minLength: 2,
@@ -339,8 +343,8 @@ if(!empty($_GET['itemid']) || (is_uuid($_GET['itemid'])))
     }
     
 
-      var i = $('#search-item');
-      var strLength = i.val().length * 2;
+      const i = $('#search-item');
+      const strLength = i.val().length * 2;
       i.focus();
       i[0].setSelectionRange(strLength, strLength);
 
